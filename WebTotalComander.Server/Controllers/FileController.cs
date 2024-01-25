@@ -28,8 +28,20 @@ public class FileController : ControllerBase
         if (res)
             return Ok(res);
 
-        return NotFound(false);
+        return NotFound(false);  
+    }
 
-        
+    [HttpDelete("delete")]
+    public async Task<ActionResult<bool>> DeleteFile(string fileName, string filePath="")
+    {
+        if (fileName == null || fileName.Length == 0)
+            return BadRequest(false);
+
+        var res = await _fileService.DeleteFileAsync(fileName, filePath);
+
+        if (res)
+            return Ok(res);
+
+        return NotFound(false);
     }
 }

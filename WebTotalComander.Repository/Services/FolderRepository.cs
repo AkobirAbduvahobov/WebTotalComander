@@ -19,9 +19,9 @@ public class FolderRepository : IFolderRepository
         string path = uploadFolderPath + folderPath + folderName;
         if (!Directory.Exists(path))
             return false;
-            
 
-        Directory.Delete(path);
+        //Directory.Delete(folderPath, recursive: true);
+        Directory.Delete(path, recursive:true);
         return true;
     }
 }

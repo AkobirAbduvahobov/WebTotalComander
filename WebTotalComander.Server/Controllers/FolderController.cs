@@ -16,7 +16,7 @@ namespace WebTotalComander.Server.Controllers
             _folderService = folderService;
         }
 
-        [HttpPost("Create")]
+        [HttpPost("create")]
         public async Task<IActionResult> CreateFolder(FolderViewModel folderViewModel)
         {
             if (folderViewModel.FolderName == null || folderViewModel.FolderName.StartsWith(" "))
@@ -25,6 +25,20 @@ namespace WebTotalComander.Server.Controllers
             await _folderService.CreateFolderAsync(folderViewModel);
 
             return Ok("Folder created successfully");
+        }
+
+        [HttpDelete("delete")]
+        public async Task<ActionResult<bool>> DeleteFolder(FolderViewModel folderViewModel)
+        {
+            if (folderViewModel.FolderName == null || folderViewModel.FolderName.StartsWith(" "))
+                return BadRequest(false);
+
+            var res = await _folderService.DeleteFolderAsync(folderViewModel);
+
+            if(res)
+                return Ok(true);
+
+            return NotFound(false);
         }
     }
 }

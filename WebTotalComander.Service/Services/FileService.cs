@@ -22,9 +22,13 @@ public class FileService : IFileService
         return await _fileRepository.SaveFileAsync(fileViewModel.File, fileViewModel.FilePath);
     }
 
-    public async Task<bool> DeleteFileAsync(string fileName, string path = "")
+    public async Task<bool> DeleteFileAsync(string fileName, string filepath = "")
     {
-        return await _fileRepository.DeleteFileAsync(fileName, path);
+        if (filepath != string.Empty)
+        {
+            filepath += "\\";
+        }
+        return await _fileRepository.DeleteFileAsync(fileName, filepath);
     }
 
 }

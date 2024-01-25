@@ -23,6 +23,10 @@ public class FolderService : IFolderService
 
     public async Task<bool> DeleteFolderAsync(FolderViewModel folderViewModel)
     {
+        if (folderViewModel.FolderPath != string.Empty)
+        {
+            folderViewModel.FolderName = "\\" + folderViewModel.FolderName;
+        }
         return await _folderRepository.DeleteFolderAsync(folderViewModel.FolderName, folderViewModel.FolderPath);
     }
 }
