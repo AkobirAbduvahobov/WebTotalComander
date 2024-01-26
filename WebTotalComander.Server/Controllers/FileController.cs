@@ -44,4 +44,16 @@ public class FileController : ControllerBase
 
         return NotFound(false);
     }
+
+    [HttpGet("download-file")]
+    public async Task<IActionResult> DownloadFile(string filePath)
+    {
+        var type = filePath.Substring(filePath.LastIndexOf('.') + 1 );   
+        
+        var memoryStream = await _fileService.DownloadFileAsync(filePath);
+
+        var res = File(memoryStream, $"application/{type}");
+
+        return res;
+    }
 }

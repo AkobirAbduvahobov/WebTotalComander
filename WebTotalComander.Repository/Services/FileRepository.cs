@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using WebTotalComander.Core.Errors;
 
 namespace WebTotalComander.Repository.Services;
 
@@ -17,10 +18,10 @@ public class FileRepository : IFileRepository
         }
 
         if (!Directory.Exists(uploadFolderPath + path1))
-            return false;
+            throw new DirectoryNotFoundException("Directory was not found");
 
         if (File.Exists(filePath))
-            return false ;
+            throw new FileAlreadyExistException("File already exist");
 
 
 
@@ -42,8 +43,29 @@ public class FileRepository : IFileRepository
         }
         else
         {
-            return false;
+            throw new FileNotFoundException("File was not found");
         }
     }
+
+    public async Task<MemoryStream> DownloadFileAsync(string filePath)
+    {
+        if(!File.Exists(uploadFolderPath + filePath))
+        {
+            throw new FileNotFoundException("File was not found to download");
+        }
+
+        var memoryStream = new MemoryStream();
+        using (var stream = new FileStream(uploadFolderPath+filePath, FileMode.Open))
+        {
+            await stream.CopyToAsync(memoryStream);
+        }
+        memoryStream.Position = 0;
+        return memoryStream;
+    }
+
+
+
+
+
 }
 

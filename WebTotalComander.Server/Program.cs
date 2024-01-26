@@ -21,6 +21,14 @@ public class Program
         builder.Services.AddScoped<IFolderRepository, FolderRepository>();
         builder.Services.AddScoped<IFolderService, FolderService>();
 
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowSpecificOrigin",
+                builder => builder.WithOrigins("https://localhost:4200")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod());
+        });
+
         var app = builder.Build();
 
         app.UseDefaultFiles();
@@ -32,6 +40,8 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+
+        app.UseCors("AllowSpecificOrigin");
 
         app.UseHttpsRedirection();
 

@@ -21,12 +21,16 @@ public class FolderService : IFolderService
         return await _folderRepository.CreateFolderAsync(folderViewModel.FolderName, folderViewModel.FolderPath);
     }
 
-    public async Task<bool> DeleteFolderAsync(FolderViewModel folderViewModel)
+    public async Task<bool> DeleteFolderAsync(string folderPath = "")
     {
-        if (folderViewModel.FolderPath != string.Empty)
-        {
-            folderViewModel.FolderName = "\\" + folderViewModel.FolderName;
-        }
-        return await _folderRepository.DeleteFolderAsync(folderViewModel.FolderName, folderViewModel.FolderPath);
+        
+        return await _folderRepository.DeleteFolderAsync(folderPath);
+    }
+
+    public async Task<string[]> GetAllFilesAsync(string folderPath = "")
+    {
+        var res = await _folderRepository.GetAllFilesAsync(folderPath);
+
+        return res;
     }
 }

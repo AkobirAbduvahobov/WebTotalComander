@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebTotalComander.Server", "WebTotalComander.Server\WebTotalComander.Server.csproj", "{D97B5D8C-CDC9-4349-9439-5F4253DDD33B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebTotalComander.Server", "WebTotalComander.Server\WebTotalComander.Server.csproj", "{D97B5D8C-CDC9-4349-9439-5F4253DDD33B}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "webtotalcomander.client", "webtotalcomander.client\webtotalcomander.client.esproj", "{E740009D-0F67-497B-8530-B910A366855F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebTotalComander.Service", "WebTotalComander.Service\WebTotalComander.Service.csproj", "{FD71A920-2945-4F9E-A079-20F8E2E96426}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebTotalComander.Service", "WebTotalComander.Service\WebTotalComander.Service.csproj", "{FD71A920-2945-4F9E-A079-20F8E2E96426}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebTotalComander.Repository", "WebTotalComander.Repository\WebTotalComander.Repository.csproj", "{EE2689C5-4FA8-4F04-84D8-A26BFCC4F198}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebTotalComander.Repository", "WebTotalComander.Repository\WebTotalComander.Repository.csproj", "{EE2689C5-4FA8-4F04-84D8-A26BFCC4F198}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebTotalComander.DataAccess", "WebTotalComander.DataAccess\WebTotalComander.DataAccess.csproj", "{64A9DB42-FE71-439D-8E07-0B1AE7FB90B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebTotalComander.DataAccess", "WebTotalComander.DataAccess\WebTotalComander.DataAccess.csproj", "{64A9DB42-FE71-439D-8E07-0B1AE7FB90B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebTotalComander.Core", "WebTotalComander.Core\WebTotalComander.Core.csproj", "{0389B061-7F0F-408F-A79F-041AE881DCB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{64A9DB42-FE71-439D-8E07-0B1AE7FB90B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64A9DB42-FE71-439D-8E07-0B1AE7FB90B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64A9DB42-FE71-439D-8E07-0B1AE7FB90B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0389B061-7F0F-408F-A79F-041AE881DCB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0389B061-7F0F-408F-A79F-041AE881DCB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0389B061-7F0F-408F-A79F-041AE881DCB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0389B061-7F0F-408F-A79F-041AE881DCB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

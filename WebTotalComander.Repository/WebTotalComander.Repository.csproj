@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WebTotalComander.Core\WebTotalComander.Core.csproj" />
     <ProjectReference Include="..\WebTotalComander.DataAccess\WebTotalComander.DataAccess.csproj" />
   </ItemGroup>
 

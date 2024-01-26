@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WebTotalComander.Core\WebTotalComander.Core.csproj" />
     <ProjectReference Include="..\WebTotalComander.Repository\WebTotalComander.Repository.csproj" />
   </ItemGroup>
 

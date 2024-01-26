@@ -7,4 +7,9 @@
     <!-- Folder where production build objects will be placed -->
     <PublishAssetsDirectory>$(MSBuildProjectDirectory)\dist\webtotalcomander.client\</PublishAssetsDirectory>
   </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="src\app\api\models\" />
+    <Folder Include="src\app\components\" />
+    <Folder Include="src\app\services\models\" />
+  </ItemGroup>
 </Project>
