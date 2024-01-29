@@ -10,16 +10,17 @@ export class FolderApiService {
 
   constructor(private http: HttpClient) { }
 
-  private serverUrl = "https://localhost:7142/api/Folder";
+  private serverUrl = "https://localhost:7142/api/Folder/";
 
-  
+  public res : any;
 
   public getFilesAndFolders(folderPath: string): Observable<string[]> {
     return this.http.get<string[]>(`https://localhost:7142/api/Folder/getAll?folderPath=${folderPath}` );
   }
 
   public createFolder(folder: FolderModel): Observable<any> {
-    return this.http.post(this.serverUrl, folder, { headers: { 'Content-Type': 'application/json' } });
+    this.res = this.http.post(this.serverUrl + "create" , folder, { headers: { 'Content-Type': 'application/json' } });
+    return this.res;
   }
 
   public deleteFolder(folderPath: string): Observable<any> {

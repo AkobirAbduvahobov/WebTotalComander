@@ -20,7 +20,7 @@ namespace WebTotalComander.Server.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> CreateFolder(FolderViewModel folderViewModel)
         {
-            if (folderViewModel.FolderName == null || folderViewModel.FolderName.StartsWith(" "))
+            if (folderViewModel.FolderName == null || folderViewModel.FolderName == string.Empty )
                 return BadRequest("No folder created");
 
             await _folderService.CreateFolderAsync(folderViewModel);

@@ -18,7 +18,7 @@ public class FileController : ControllerBase
     }
 
     [HttpPost("upload")]
-    public async Task<ActionResult<bool>> UploadFile(FileViewModel fileViewModel)
+    public async Task<ActionResult<bool>> UploadFile( [FromForm] FileViewModel fileViewModel)
     {
         if (fileViewModel.File == null || fileViewModel.File.Length == 0)
             return BadRequest(false);

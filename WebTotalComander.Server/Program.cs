@@ -21,10 +21,20 @@ public class Program
         builder.Services.AddScoped<IFolderRepository, FolderRepository>();
         builder.Services.AddScoped<IFolderService, FolderService>();
 
+        /*
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("AllowSpecificOrigin",
                 builder => builder.WithOrigins("https://localhost:4200")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod());
+        });
+        */
+
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowSpecificOrigin",
+                builder => builder.WithOrigins("http://localhost:4200")
                     .AllowAnyHeader()
                     .AllowAnyMethod());
         });
