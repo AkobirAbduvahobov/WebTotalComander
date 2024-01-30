@@ -1,6 +1,8 @@
 export interface FolderModel {
 
-  folderName: string;
+  folderName : string;
   folderPath: string;
+
+ 
 
 }

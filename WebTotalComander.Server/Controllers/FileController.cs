@@ -23,6 +23,11 @@ public class FileController : ControllerBase
         if (fileViewModel.File == null || fileViewModel.File.Length == 0)
             return BadRequest(false);
 
+       /* if (fileViewModel.FilePath == "11")
+        {
+            fileViewModel.FilePath = string.Empty;
+        }*/
+
         var res = await _fileService.SaveFileAsync(fileViewModel);
 
         if (res)

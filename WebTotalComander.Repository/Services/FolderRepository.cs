@@ -41,4 +41,32 @@ public class FolderRepository : IFolderRepository
 
         return res;
     }
+
+    public async Task<string[]> GetAllFilesWithPaginationAsync( int offset, int limit,  string folderPath = "")
+    {
+        if (folderPath == string.Empty)
+            uploadFolderPath.Remove(uploadFolderPath.Length - 1);
+
+        string path = uploadFolderPath + folderPath;
+
+        if (!Directory.Exists(path))
+            throw new DirectoryNotFoundException("Directory was not found");
+
+        var res = Directory.GetFileSystemEntries(path).Skip(offset).Take(limit).Select(x => x.Remove(0, uploadFolderPath.Length)).ToArray();
+
+        return res;
+    }
+
+    public async Task<int> GetTotalCount(string folderPath = "")
+    {
+        if (folderPath == string.Empty)
+            uploadFolderPath.Remove(uploadFolderPath.Length - 1);
+
+        string path = uploadFolderPath + folderPath;
+
+        if (!Directory.Exists(path))
+            throw new DirectoryNotFoundException("Directory was not found");
+
+        return Directory.GetFileSystemEntries(path).Count();
+    }
 }

@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { AnimationBuilder } from '@angular/animations';
 import { FileService } from '../../services/file.service';
 import { Folder } from '../../services/models/folder';
+import { FolderGet } from '../../services/models/folderGet';
+import { FileExFo } from '../../services/models/fileExFo';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +21,12 @@ export class HomeComponent implements OnInit {
   public isInputFolderVisible : boolean = false;
   public isInputFileVisible : boolean = false;
 
+  
+
+  public folderGet! : FolderGet;
+
+  public fileExFo : FileExFo[] = [];
+
 
 
 
@@ -31,18 +39,29 @@ export class HomeComponent implements OnInit {
   }
 
   public getAll(folderPath: string): void {
-    this.pathes = this.folderService.getAll(folderPath);
-    // console.log(this.pathes);
-    console.log( "Component" )
-    console.log(this.pathes.length)
-    console.log(this.pathes[1])
-    console.log(this.pathes[2])
-    for( let i = 0 ; i < this.pathes.length; i++ )
-    {
-      console.log(i);
-      console.log( i + "  " + this.pathes[i].fileName + "  ext : " + this.pathes[i].fileType  )
-    }
+    this.folderService.getAll(folderPath).subscribe(
+      (response) => {
+        
+        this.folderGet = response;
+        this.fileExFo = response.filesWithNamesAndExtensions;
+
+        console.log( "1 " + this.folderGet.extensions );
+        console.log( "2 " + this.folderGet.names );
+        console.log( "3 " + this.folderGet.folderPath );
+        console.log( "4 " + this.folderGet.filesWithNamesAndExtensions );
+        console.log( "5 " + this.fileExFo[0].fileName );
+        
+        
+        
+
+      },
+      (error) =>{
+        console.log( "Componenta Error " + error);
+      }
+    )
   }
+
+ 
 
   public addFolder(): void {
     
@@ -85,6 +104,14 @@ export class HomeComponent implements OnInit {
     this.hideInputFile();
   }
 
+  onChange(event: any) {
+    
+    if (event.target.files.length > 0) {
+        const file:File = event.target.files[0];
+        this.file=file;
+    }
+  }
+
   public showInputFile(): void {
     this.isInputFileVisible = true;
 
@@ -93,6 +120,16 @@ export class HomeComponent implements OnInit {
     this.isInputFileVisible = false;
   }
 
+
+  public deleteItem( path : string ) : void
+  {
+
+  }
+
+  public editItem( path : string ) : void
+  {
+
+  }
  
 
  

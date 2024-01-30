@@ -9,6 +9,7 @@ import { HomeComponent } from './components/home/home.component';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
+import { ButtonsModule } from '@progress/kendo-angular-buttons';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,7 @@ import { FormsModule } from '@angular/forms';
   ],
   imports: [
     BrowserModule, HttpClientModule,
-    AppRoutingModule, GridModule,
+    AppRoutingModule, GridModule,ButtonsModule,
     BrowserAnimationsModule, FormsModule,
 
   ],

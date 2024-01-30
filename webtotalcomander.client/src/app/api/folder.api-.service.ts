@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FolderModel } from './models/folder.model';
+import { Folder } from '../services/models/folder';
+import { FolderGetModel } from './models/folderGet.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +16,8 @@ export class FolderApiService {
 
   public res : any;
 
-  public getFilesAndFolders(folderPath: string): Observable<string[]> {
-    return this.http.get<string[]>(`https://localhost:7142/api/Folder/getAll?folderPath=${folderPath}` );
+  public getFilesAndFolders(folderPath: string): Observable<FolderGetModel> {
+    return this.http.get<FolderGetModel>(`https://localhost:7142/api/Folder/getAll?folderPath=${folderPath}` );
   }
 
   public createFolder(folder: FolderModel): Observable<any> {

@@ -44,11 +44,27 @@ namespace WebTotalComander.Server.Controllers
         }
 
         [HttpGet("getAll")]
-        public async Task<ActionResult<string[]>> GetAllFiles(string folderPath = "")
+        public async Task<ActionResult<FolderViewModelResponse>> GetAllFiles(string folderPath = "")
         {
              
-
             var res = await _folderService.GetAllFilesAsync(folderPath);
+
+            if( res.FolderPath == null )
+                res.FolderPath = string.Empty;
+
+            return Ok(res);
+
+        }
+
+        [HttpGet("getAllWithPagination")]
+        public async Task<ActionResult<FilesWithPagination>> GetFilesWithPagination(int offset, int limit, string folderPath = "")
+        {
+
+            if (offset < 0 || limit < 0)
+                return BadRequest("Error");
+
+            var res = await _folderService.GetAllFilesWithPaginationAsync(offset, limit, folderPath);
+
             return Ok(res);
         }
     }

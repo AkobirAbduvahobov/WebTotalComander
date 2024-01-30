@@ -16,11 +16,14 @@
     </div>
 
     <div class="mt-4" *ngIf="isInputFileVisible">
-        <div class="col-md-12 mb-3">
-            <input [(ngModel)]="file"  type="file" placeholder="File Name" accept-language="en"  >
-            <!-- <p class="ms-3" style="color: red;" *ngIf="isValidEmail">the Email is invalid</p> -->
+        <!-- <div class="col-md-12 mb-3">
+            <input [(ngModel)]="file"  type="file" placeholder="File Name" accept-language="en"  > 
+            <p class="ms-3" style="color: red;" *ngIf="isValidEmail">the Email is invalid</p>
+        </div> -->
+        <div>
+            <input class="" type="file"  (change)="onChange($event)">
         </div>
-        <div >
+        <div class="mt-2">
             <button (click)="uploadFile()" class="btn btn-success me-2">Yes</button>
             <button (click) = "hideInputFile()" class="btn btn-danger">No</button>
         </div>
@@ -30,5 +33,49 @@
     <h3 class="mt-5">
         Path
     </h3>
+
+
+    <!-- <div *ngFor="let file of folderGet?.filesWithNamesAndExtensions">
+        
+    </div> -->
+
+    <!-- <div class="mt-5">
+        <kendo-grid
+      [kendoGridBinding]="fileExFo"
+      [pageable]="true"
+      [pageSize]="8"
+      [sortable]="true"
+      [filterable]="true"
+      [groupable]="true"
+    >
+      
+      <kendo-grid-column field="fileName" title="Name"></kendo-grid-column>
+      <kendo-grid-column field="fileExtension" title="Type"></kendo-grid-column>
+      <kendo-grid-column field="fileExtension" title="Action"></kendo-grid-column>
+    </kendo-grid>
+    </div> -->
+
+
+<div class="mt-5">
+  <kendo-grid
+    [kendoGridBinding]="fileExFo"
+    [pageable]="true"
+    [pageSize]="10"
+    [sortable]="true"
+    [filterable]="true"
+    [groupable]="true"
+  >
+    <kendo-grid-column field="fileName" title="Name"></kendo-grid-column>
+    <kendo-grid-column field="fileExtension" title="Type"></kendo-grid-column>
+    <kendo-grid-column title="Action">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <!-- Add your action buttons here -->
+        <button kendoButton (click)="editItem(dataItem)" class="k-button k-primary me-2">Edit</button>
+        <button kendoButton (click)="deleteItem(dataItem)" class="k-button k-danger">Delete</button>
+        
+      </ng-template>
+    </kendo-grid-column>
+  </kendo-grid>
+</div>
 
 </div>
