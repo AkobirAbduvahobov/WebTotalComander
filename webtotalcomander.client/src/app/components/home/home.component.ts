@@ -7,6 +7,18 @@ import { Folder } from '../../services/models/folder';
 import { FolderGet } from '../../services/models/folderGet';
 import { FileExFo } from '../../services/models/fileExFo';
 
+import {
+  AddEvent,
+  CancelEvent,
+  EditEvent,
+  RemoveEvent,
+  SaveEvent,
+  GridComponent,
+  GridItem,
+  CellClickEvent,
+} from "@progress/kendo-angular-grid";
+import { FormGroup } from '@angular/forms';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -14,12 +26,15 @@ import { FileExFo } from '../../services/models/fileExFo';
 })
 export class HomeComponent implements OnInit {
 
-  public path: string = '';
+  public path: string = "my files";
   public folderName : string = '';
   public file! : File;
   public pathes : Folder[] = [];
   public isInputFolderVisible : boolean = false;
   public isInputFileVisible : boolean = false;
+
+
+ 
 
   
 
@@ -44,6 +59,7 @@ export class HomeComponent implements OnInit {
         
         this.folderGet = response;
         this.fileExFo = response.filesWithNamesAndExtensions;
+        this.path = this.folderGet.folderPath;
 
         console.log( "1 " + this.folderGet.extensions );
         console.log( "2 " + this.folderGet.names );
@@ -61,7 +77,25 @@ export class HomeComponent implements OnInit {
     )
   }
 
- 
+  onCellClick(event: any): void {
+    if( event.dataItem?.fileExtension == "folder" )
+    {
+      this.path = this.path + '/' +  event.dataItem?.fileName;
+    }
+    
+    this.getAll(this.path);
+  }
+
+  // onFolderNameClick(event: any, folderName: string): void {
+  //   // You can use the folderName as needed
+  //   this.path = folderName;
+  //   this.getAll(this.path);
+  // }
+
+  public getNameType( name : string, type : string = '' ) : void
+  {
+
+  }
 
   public addFolder(): void {
     
@@ -70,10 +104,12 @@ export class HomeComponent implements OnInit {
       (response) => {
         console.log(response);
         console.log("Response")
+        this.getAll(this.path);
       },
       (error) => {
         console.log(error);
         console.log("Error")
+        this.getAll(this.path);
       }
     )
 
@@ -94,6 +130,7 @@ export class HomeComponent implements OnInit {
       (response) => {
         console.log(response);
         console.log("Response")
+        this.getAll(this.path);
       },
       (error) => {
         console.log(error);
@@ -123,7 +160,48 @@ export class HomeComponent implements OnInit {
 
   public deleteItem( path : string ) : void
   {
+    this.folderService.deleteFolder( this.path + "/" + path ).subscribe(
+      (response) => {
+        console.log("response + " + response );
+        this.getAll(this.path);
+      },
+      (error) => {
+        console.log("error + " + error );
+        this.getAll(this.path);
+      }
 
+    )
+  }
+
+  public cellClickHandler(args: CellClickEvent): void {
+    if( args.dataItem.fileExtension === "folder" )
+    {
+      this.path = this.path + "/" + args.dataItem.fileName;
+      this.getAll(this.path);
+    }
+    
+  }
+
+  public delete({ dataItem }: RemoveEvent): void {
+    if( dataItem.fileExtension === "folder" )
+    {
+      this.deleteItem(dataItem.fileName);
+    }
+    else
+    {
+      this.fileService.deleteFile( this.path , dataItem.fileName + dataItem.fileExtension ).subscribe(
+        (response) =>
+        {
+          console.log("Response of deleteFile " + response);
+          this.getAll(this.path);
+        },
+        (error) => {
+          console.log("Error of deleteFile " + error);
+          this.getAll(this.path);
+        }
+      )
+    }
+   
   }
 
   public editItem( path : string ) : void

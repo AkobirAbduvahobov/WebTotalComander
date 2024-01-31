@@ -18,9 +18,9 @@ export class FileService {
     )
   }
 
-  public deleteFolder(filePath: string): Observable<any> {
+  public deleteFile(filePath: string, fileName : string): Observable<any> {
 
-    return this.fileApiService.deleteFile(filePath);
+    return this.fileApiService.deleteFile(filePath, fileName);
 
   }
 }

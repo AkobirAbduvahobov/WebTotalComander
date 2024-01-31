@@ -55,9 +55,13 @@ public class FolderService : IFolderService
         {
             var a = resPathes[0].LastIndexOf("\\");
             if (a != -1)
-                folderViewModelResponse.FolderPath = resPathes[0].Substring(a);
+                folderViewModelResponse.FolderPath = resPathes[0].Substring(0,a);
             else
                 folderViewModelResponse.FolderPath = null;
+        }
+        else
+        {
+            folderViewModelResponse.FolderPath = folderPath;
         }
 
        

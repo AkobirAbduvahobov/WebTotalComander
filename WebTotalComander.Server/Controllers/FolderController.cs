@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
+﻿using Microsoft.AspNetCore.Mvc;
 using WebTotalComander.Service.Services;
 using WebTotalComander.Service.ViewModels;
 
@@ -20,7 +18,7 @@ namespace WebTotalComander.Server.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> CreateFolder(FolderViewModel folderViewModel)
         {
-            if (folderViewModel.FolderName == null || folderViewModel.FolderName == string.Empty )
+            if (folderViewModel.FolderName == null || folderViewModel.FolderName == string.Empty)
                 return BadRequest("No folder created");
 
             await _folderService.CreateFolderAsync(folderViewModel);
@@ -36,8 +34,8 @@ namespace WebTotalComander.Server.Controllers
 
 
             var res = await _folderService.DeleteFolderAsync(folderPath);
-
-            if(res)
+       
+            if (res)
                 return Ok(true);
 
             return NotFound(false);
@@ -46,11 +44,25 @@ namespace WebTotalComander.Server.Controllers
         [HttpGet("getAll")]
         public async Task<ActionResult<FolderViewModelResponse>> GetAllFiles(string folderPath = "")
         {
-             
+          /*  if (folderPath == "my files")
+            {
+                folderPath = "";
+            }
+            if( folderPath.StartsWith("my files"))
+            {
+                folderPath = folderPath.Remove(0, 9);
+            }
+*/
             var res = await _folderService.GetAllFilesAsync(folderPath);
 
-            if( res.FolderPath == null )
-                res.FolderPath = string.Empty;
+            /*if (res.FolderPath == null)
+            {
+                res.FolderPath = "my files";
+                
+            }
+
+            else
+                res.FolderPath = "my files/" + res.FolderPath;*/
 
             return Ok(res);
 

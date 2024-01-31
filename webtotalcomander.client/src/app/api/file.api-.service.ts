@@ -43,7 +43,7 @@ export class FileApiService {
     }
   */
 
-  public deleteFile(folderPath: string): Observable<any> {
-    return this.http.delete(this.serverUrl);
+  public deleteFile(folderPath: string , fileName : string): Observable<any> {
+    return this.http.delete(`https://localhost:7142/api/File/delete?fileName=${fileName}&filePath=${folderPath}`);
   }
 }

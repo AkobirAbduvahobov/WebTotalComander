@@ -26,6 +26,6 @@ export class FolderApiService {
   }
 
   public deleteFolder(folderPath: string): Observable<any> {
-    return this.http.delete(this.serverUrl);
+    return this.http.delete(`https://localhost:7142/api/Folder/delete?folderPath=${folderPath}`);
   }
 }

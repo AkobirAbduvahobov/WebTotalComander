@@ -1,45 +1,50 @@
 <div class="container">
-    
+
+  <div class="mt-2">
+    <button (click)="showInputFolder()" class="btn btn-primary me-3">Add folder</button>
+    <button (click)="showInputFile()" class="btn btn-primary">Upload file</button>
+  </div>
+  <div class="mt-4" *ngIf="isInputFolderVisible">
+    <div class="col-md-12 mb-3">
+      <input [(ngModel)]="folderName" type="text" placeholder="Folder Name" required class="border-2 fw-bold">
+      <!-- <p class="ms-3" style="color: red;" *ngIf="isValidEmail">the Email is invalid</p> -->
+    </div>
+    <div>
+      <button (click)="addFolder()" class="btn btn-success me-2">Yes</button>
+      <button (click)="hideInputFolder()" class="btn btn-danger">No</button>
+    </div>
+  </div>
+
+  <div class="mt-4" *ngIf="isInputFileVisible">
+  
+    <div>
+      <input class="" type="file" (change)="onChange($event)">
+    </div>
+    <!-- <div class="row">
+      <div class="col-xs-12 col-sm-6 example-col">
+        <p>FileSelect</p>
+        <kendo-fileselect> </kendo-fileselect>
+      </div>
+    </div> -->
+
     <div class="mt-2">
-        <button (click)="showInputFolder()" class="btn btn-primary me-3">Add folder</button>
-        <button (click) = "showInputFile()" class="btn btn-primary">Upload file</button>
+      <button (click)="uploadFile()" class="btn btn-success me-2">Yes</button>
+      <button (click)="hideInputFile()" class="btn btn-danger">No</button>
     </div>
-    <div class="mt-4" *ngIf="isInputFolderVisible">
-        <div class="col-md-12 mb-3">
-            <input [(ngModel)]="folderName"  type="text" placeholder="Folder Name" required  class="border-2 fw-bold" >
-            <!-- <p class="ms-3" style="color: red;" *ngIf="isValidEmail">the Email is invalid</p> -->
-        </div>
-        <div >
-            <button (click)="addFolder()" class="btn btn-success me-2">Yes</button>
-            <button (click) = "hideInputFolder()" class="btn btn-danger">No</button>
-        </div>
-    </div>
-
-    <div class="mt-4" *ngIf="isInputFileVisible">
-        <!-- <div class="col-md-12 mb-3">
-            <input [(ngModel)]="file"  type="file" placeholder="File Name" accept-language="en"  > 
-            <p class="ms-3" style="color: red;" *ngIf="isValidEmail">the Email is invalid</p>
-        </div> -->
-        <div>
-            <input class="" type="file"  (change)="onChange($event)">
-        </div>
-        <div class="mt-2">
-            <button (click)="uploadFile()" class="btn btn-success me-2">Yes</button>
-            <button (click) = "hideInputFile()" class="btn btn-danger">No</button>
-        </div>
-    </div>
+  </div>
 
 
-    <h3 class="mt-5">
-        Path
-    </h3>
+  <div class="mt-5 text-center">
+    <h3><span>{{ path }}</span></h3>
+  </div>
 
 
-    <!-- <div *ngFor="let file of folderGet?.filesWithNamesAndExtensions">
+
+  <!-- <div *ngFor="let file of folderGet?.filesWithNamesAndExtensions">
         
     </div> -->
 
-    <!-- <div class="mt-5">
+  <!-- <div class="mt-5">
         <kendo-grid
       [kendoGridBinding]="fileExFo"
       [pageable]="true"
@@ -56,26 +61,48 @@
     </div> -->
 
 
-<div class="mt-5">
-  <kendo-grid
-    [kendoGridBinding]="fileExFo"
-    [pageable]="true"
-    [pageSize]="10"
-    [sortable]="true"
-    [filterable]="true"
-    [groupable]="true"
-  >
-    <kendo-grid-column field="fileName" title="Name"></kendo-grid-column>
-    <kendo-grid-column field="fileExtension" title="Type"></kendo-grid-column>
-    <kendo-grid-column title="Action">
-      <ng-template kendoGridCellTemplate let-dataItem>
-        <!-- Add your action buttons here -->
-        <button kendoButton (click)="editItem(dataItem)" class="k-button k-primary me-2">Edit</button>
-        <button kendoButton (click)="deleteItem(dataItem)" class="k-button k-danger">Delete</button>
-        
-      </ng-template>
-    </kendo-grid-column>
-  </kendo-grid>
-</div>
+  <div class="mt-5 text-center">
+
+    <kendo-grid 
+      [data]="fileExFo" 
+      (cellClick)="cellClickHandler($event)"
+      
+      (remove)="delete($event)"
+      >
+      <kendo-grid-column field="fileName" title="Name"     > </kendo-grid-column>
+      <kendo-grid-column field="fileExtension" title="Type"> </kendo-grid-column>
+      <kendo-grid-column title="Action">
+        <ng-template kendoGridCellTemplate let-dataItem>
+
+          <button kendoGridRemoveCommand class="me-4">Delete</button>
+          <button kendoGridEditCommand  class="me-4">Edit</button>
+
+        </ng-template>
+      </kendo-grid-column>
+    </kendo-grid>
+
+  </div>
+
+  <!-- <div class="mt-5">
+    <kendo-grid [data]="fileExFo" (cellClick)="onCellClick($event)">
+      <kendo-grid-column field="fileName" title="Name">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div *ngIf="dataItem">
+            {{ dataItem.fileName }}
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="fileExtension" title="Type"></kendo-grid-column>
+      <kendo-grid-column title="Action">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div *ngIf="dataItem">
+            <button kendoButton (click)="deleteItem(dataItem)" class="k-button k-danger me-4">Delete</button>
+            <button kendoButton (click)="editItem(dataItem)" class="k-button k-primary me-2">Edit</button>
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+    </kendo-grid>
+  </div> -->
+  
 
 </div>

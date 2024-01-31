@@ -19,7 +19,7 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
   imports: [
     BrowserModule, HttpClientModule,
     AppRoutingModule, GridModule,ButtonsModule,
-    BrowserAnimationsModule, FormsModule,
+    BrowserAnimationsModule, FormsModule
 
   ],
   providers: [],
