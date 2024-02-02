@@ -10,6 +10,7 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
+import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,7 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
   imports: [
     BrowserModule, HttpClientModule,
     AppRoutingModule, GridModule,ButtonsModule,
-    BrowserAnimationsModule, FormsModule
+    BrowserAnimationsModule, FormsModule,ComboBoxModule
 
   ],
   providers: [],

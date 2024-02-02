@@ -17,6 +17,7 @@ import {
   GridComponent,
   GridItem,
   CellClickEvent,
+  
 } from "@progress/kendo-angular-grid";
 import { FormGroup } from '@angular/forms';
 import { saveAs } from '@progress/kendo-drawing/dist/npm/pdf';
@@ -47,17 +48,22 @@ export class HomeComponent implements OnInit {
   public fileExFo : FileExFo[] = [];
 
   public currentPage = 1;
-  public pageSize = 3; // Or another default value
+  public pageSize = 4; // Or another default value
   public totalCount: number = 0;
+
+  public listItems: Number[] = [2,3,4, 6, 8];
+  public selectedValue = 4;
 
 
   constructor(private folderService: FolderService, private fileService : FileService) { }
 
-  
+  onPageSizeChange() {
+    this.getAllPagination( this.currentPage, this.pageSize, this.path );
+  }
 
   ngOnInit(): void {
     //this.getAll(this.path);
-    this.getAllPagination( this.currentPage, this.pageSize, this.path )
+    this.getAllPagination( this.currentPage, this.pageSize, this.path );
   }
 
   public getAllPagination( offset:number, limit:number, folderPath : string): void {
@@ -154,7 +160,7 @@ export class HomeComponent implements OnInit {
       this.pathesForward.pop();
       console.log( "Forward : " + this.path )
       console.log( "Forward : " + this.pathesForward )
-      this.getAll(this.path);
+      this.getAllPagination( this.currentPage, this.pageSize, this.path );
     }
 
   }
@@ -176,7 +182,7 @@ export class HomeComponent implements OnInit {
       this.path += this.pathes[i];
     }
 
-    this.getAll(this.path);
+    this.getAllPagination( this.currentPage, this.pageSize, this.path );
 
   }
 
@@ -198,12 +204,12 @@ export class HomeComponent implements OnInit {
       (response) => {
         console.log(response);
         console.log("Response")
-        this.getAll(this.path);
+        this.getAllPagination( this.currentPage, this.pageSize, this.path );
       },
       (error) => {
         console.log(error);
         console.log("Error")
-        this.getAll(this.path);
+        this.getAllPagination( this.currentPage, this.pageSize, this.path );
       }
     )
 
@@ -224,7 +230,7 @@ export class HomeComponent implements OnInit {
       (response) => {
         console.log(response);
         console.log("Response")
-        this.getAll(this.path);
+        this.getAllPagination( this.currentPage, this.pageSize, this.path );
       },
       (error) => {
         console.log(error);
@@ -258,12 +264,12 @@ export class HomeComponent implements OnInit {
     this.folderService.deleteFolder( this.path + "/" + path ).subscribe(
       (response) => {
         console.log("response + " + response );
-        this.getAll(this.path);
+        this.getAllPagination( this.currentPage, this.pageSize, this.path );
         
       },
       (error) => {
         console.log("error + " + error );
-        this.getAll(this.path);
+        this.getAllPagination( this.currentPage, this.pageSize, this.path );
       }
 
     )
@@ -310,7 +316,7 @@ export class HomeComponent implements OnInit {
       this.pathesForward.length = 0;
       this.shouldWork++;
       this.path = this.path + "/" + args.dataItem.fileName;
-      this.getAll(this.path);
+      this.getAllPagination( this.currentPage, this.pageSize, this.path );
     }
     else if( args.dataItem.fileExtension !== "folder" && this.flashok === 0)
     {
@@ -334,11 +340,11 @@ export class HomeComponent implements OnInit {
         (response) =>
         {
           console.log("Response of deleteFile " + response);
-          this.getAll(this.path);
+          this.getAllPagination( this.currentPage, this.pageSize, this.path );
         },
         (error) => {
           console.log("Error of deleteFile " + error);
-          this.getAll(this.path);
+          this.getAllPagination( this.currentPage, this.pageSize, this.path );
         }
       )
     }

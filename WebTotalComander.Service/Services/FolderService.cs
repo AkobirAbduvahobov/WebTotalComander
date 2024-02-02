@@ -93,9 +93,13 @@ public class FolderService : IFolderService
         {
             var a = resPathes[0].LastIndexOf("\\");
             if (a != -1)
-                filesWithPagination.FolderPath = resPathes[0].Substring(a);
+                filesWithPagination.FolderPath = resPathes[0].Substring(0,a);
             else
                 filesWithPagination.FolderPath = null;
+        }
+        else
+        {
+            filesWithPagination.FolderPath = folderPath;
         }
 
         filesWithPagination.TotalCountFolders = await _folderRepository.GetTotalCount(folderPath);

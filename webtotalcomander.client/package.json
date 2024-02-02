@@ -42,7 +42,7 @@
     "@progress/kendo-angular-utils": "14.3.0",
     "@progress/kendo-data-query": "^1.0.0",
     "@progress/kendo-drawing": "^1.17.2",
-    "@progress/kendo-licensing": "^1.3.5",
+    "@progress/kendo-licensing": "^1.0.2",
     "@progress/kendo-svg-icons": "^2.0.0",
     "@progress/kendo-theme-bootstrap": "^7.2.0",
     "@progress/kendo-theme-default": "^7.0.2",
@@ -51,7 +51,8 @@
     "run-script-os": "*",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.2"
+    "zone.js": "~0.14.2",
+    "@progress/kendo-angular-navigation": "14.3.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.0.0",

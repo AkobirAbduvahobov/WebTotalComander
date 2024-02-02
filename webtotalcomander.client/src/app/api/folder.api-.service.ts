@@ -30,7 +30,7 @@ export class FolderApiService {
   }
 
   public getFilesAndFoldersPagination(offset : number, limit : number,  folderPath: string): Observable<any> {
-    return this.http.get<FolderGetModel>(`'https://localhost:7142/api/Folder/getAllWithPagination?offset=${offset}&limit=${limit}&folderPath=${folderPath}'` );
+    return this.http.get(`https://localhost:7142/api/Folder/getAllWithPagination?offset=${offset}&limit=${limit}&folderPath=${folderPath}` );
   }
 
 }
