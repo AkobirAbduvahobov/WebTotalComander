@@ -46,6 +46,7 @@
     "@progress/kendo-svg-icons": "^2.0.0",
     "@progress/kendo-theme-bootstrap": "^7.2.0",
     "@progress/kendo-theme-default": "^7.0.2",
+    "file-saver": "^2.0.5",
     "jest-editor-support": "*",
     "run-script-os": "*",
     "rxjs": "~7.8.0",

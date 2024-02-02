@@ -1,0 +1,108 @@
+	1 - module
+
+1 - dars: 1 project(Hello world)
+* nazariya
+* c++ o'rnatish(clion)
+* c++ o'rnatish(code bloks)
+* c++ (online compile da ishlash)
+
+2 - dars: O'lchov birliklari va sanoq sistema
+* vaqt o'lchov birligi
+* axborot o'lchov birligi
+* sanoq tizimlari (2 , 10 lik)
+
+3 - dars: O'zgaruvchilar
+* ma'lumot turlari
+* o'zgaruvchilar , o'zgarmaslar
+* cin >> variable
+
+4 - dars: Matematik operatorlar
+* (+, -, *, /, %)
+* increament, decreament
+* co'dlarni qisqartirish
+
+5 - dars: Mantiqiy operatorlar va Algoritmlar
+* (algortimlar haqida tushuncha nazariya)
+* debug
+
+6 - dasr : Shartlar(Conditionlar)
+* Sodda shartlar
+* mantiqiy bog'lovchilar
+* Murakkab shartlar
+
+7 - dars : If 1
+* if , else
+* sanoq, summa, ko'paytma
+* katta va kichik ni aniqlash algortimi
+
+8 - dars : If 2
+* else if
+* nested if
+* ternary 
+
+9 - dars : Switch case
+* switch case
+* ishlatish mumkin bo'lgan typelar
+* break, default
+
+10 - dars : loop 1
+* (nazariya)
+* while loop
+
+11 - dars : loop 2
+* for loop
+* do while loop
+
+12 - dars : Projects
+* (mini calculyator, pul conversiya)
+* (number find, bankomat)
+
+
+	2 - module
+
+1 - dars : Funksiyalar bn tanishish
+* cmath
+* cctype
+
+2 - dars : Massive 1 o'lchamli
+
+3 - dars : Massive 2 o'lchamli
+
+4 - dars : Vectorlar bn ishlash
+
+5 - dars : String 1
+
+6 - dars : String 2
+
+7 - dars : return type functions
+
+8 - dars : protsedura
+
+9 - dars : Overloading , Rekursiya
+
+10 - dasr : leet code
+
+11 - dars : Projects
+
+	
+	
+	
+
+	
+
+	
+
+	
+
+
+	
+
+
+
+	
+
+
+	
+	
+ 
+	

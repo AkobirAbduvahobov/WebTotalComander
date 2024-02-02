@@ -35,6 +35,11 @@ export class FolderService {
 
   }
 
-  
+  public getAllPagination( offset : number, limit : number,  folderPath: string): Observable<any> {
+    offset--;
+    offset = offset * limit;
+    return this.folderApiService.getFilesAndFoldersPagination( offset, limit, folderPath);
+
+  }
 
 }

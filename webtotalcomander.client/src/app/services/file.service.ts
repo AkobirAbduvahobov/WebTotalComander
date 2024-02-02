@@ -23,4 +23,10 @@ export class FileService {
     return this.fileApiService.deleteFile(filePath, fileName);
 
   }
+
+  public downloadFile(filePath: string): Observable<any> {
+
+    return this.fileApiService.downloadFile(filePath);
+
+  }
 }

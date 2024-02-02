@@ -28,4 +28,9 @@ export class FolderApiService {
   public deleteFolder(folderPath: string): Observable<any> {
     return this.http.delete(`https://localhost:7142/api/Folder/delete?folderPath=${folderPath}`);
   }
+
+  public getFilesAndFoldersPagination(offset : number, limit : number,  folderPath: string): Observable<any> {
+    return this.http.get<FolderGetModel>(`'https://localhost:7142/api/Folder/getAllWithPagination?offset=${offset}&limit=${limit}&folderPath=${folderPath}'` );
+  }
+
 }
