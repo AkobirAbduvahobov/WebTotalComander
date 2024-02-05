@@ -33,6 +33,11 @@ export class FileApiService {
     return this.http.get(`https://localhost:7142/api/File/download-file?filePath=${filePath}`,  { responseType: 'blob' });
   }
 
+  
+  
+  public downloadFileForEdit( filePath : string  ) : Observable<any>{
+    return this.http.get(`https://localhost:7142/api/File/download-file?filePath=${filePath}`);
+  }
 
   public deleteFile(folderPath: string , fileName : string): Observable<any> {
     return this.http.delete(`https://localhost:7142/api/File/delete?fileName=${fileName}&filePath=${folderPath}`);

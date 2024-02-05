@@ -30,11 +30,13 @@
     "@progress/kendo-angular-excel-export": "14.3.0",
     "@progress/kendo-angular-grid": "latest",
     "@progress/kendo-angular-icons": "14.3.0",
+    "@progress/kendo-angular-indicators": "^14.3.0",
     "@progress/kendo-angular-inputs": "14.3.0",
     "@progress/kendo-angular-intl": "14.3.0",
     "@progress/kendo-angular-l10n": "14.3.0",
     "@progress/kendo-angular-label": "14.3.0",
     "@progress/kendo-angular-layout": "14.3.0",
+    "@progress/kendo-angular-navigation": "14.3.0",
     "@progress/kendo-angular-pdf-export": "14.3.0",
     "@progress/kendo-angular-popup": "14.3.0",
     "@progress/kendo-angular-progressbar": "14.3.0",
@@ -48,11 +50,11 @@
     "@progress/kendo-theme-default": "^7.0.2",
     "file-saver": "^2.0.5",
     "jest-editor-support": "*",
+    "ngx-toastr": "^18.0.0",
     "run-script-os": "*",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.2",
-    "@progress/kendo-angular-navigation": "14.3.0"
+    "zone.js": "~0.14.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.0.0",

@@ -69,6 +69,12 @@ public class FolderService : IFolderService
         return folderViewModelResponse;
     }
 
+
+    public async Task<byte[]> DownloadZipAsync(string folderPath, string zipFileName)
+    {
+        return await _folderRepository.DownloadZipAsync(folderPath, zipFileName);
+    }
+
     public async Task<FilesWithPagination> GetAllFilesWithPaginationAsync( int offset, int limit,  string folderPath = "")
     {
         var resPathes = await _folderRepository.GetAllFilesWithPaginationAsync(offset, limit, folderPath);  

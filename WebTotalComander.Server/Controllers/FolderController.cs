@@ -77,7 +77,47 @@ namespace WebTotalComander.Server.Controllers
 
             var res = await _folderService.GetAllFilesWithPaginationAsync(offset, limit, folderPath);
 
+            Thread.Sleep(800);
+            if(res.FilesWithNamesAndExtensions.Count != 0 )
+            {
+                foreach (var file in res.FilesWithNamesAndExtensions)
+                {
+                    if( file.FileExtension != "folder" )
+                        file.FileName += file.FileExtension;
+                }
+            }
+           
+            
+
             return Ok(res);
         }
+
+
+        [HttpGet("downloadZip")]
+        public async Task<IActionResult> DownloadFolder(string folderPath)
+        {
+
+            string zipFileName = "";
+            int index = folderPath.LastIndexOf('/');
+
+            if (index >= 0 )
+            {
+                zipFileName = folderPath.Substring(index);
+            }
+            else
+                zipFileName = folderPath;
+          
+            try
+            {
+                var zipFileBytes = await _folderService.DownloadZipAsync(folderPath, zipFileName);
+
+                return File(zipFileBytes, "application/zip", zipFileName);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
     }
 }

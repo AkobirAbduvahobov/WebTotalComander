@@ -1,4 +1,5 @@
 ﻿
+using System.IO.Compression;
 using WebTotalComander.Core.Errors;
 
 namespace WebTotalComander.Repository.Services;
@@ -68,5 +69,44 @@ public class FolderRepository : IFolderRepository
             throw new DirectoryNotFoundException("Directory was not found");
 
         return Directory.GetFileSystemEntries(path).Count();
+    }
+
+    public async Task<byte[]> DownloadZipAsync(string folderPath, string zipFileName)
+    {
+        folderPath = uploadFolderPath + folderPath;
+
+        using (var memoryStream = new MemoryStream())
+        {
+            using (var archive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
+            {
+                await ZipFolder(folderPath, archive, "");
+            }
+
+            memoryStream.Seek(0, SeekOrigin.Begin);
+            return memoryStream.ToArray();
+        }
+    }
+
+    private async Task ZipFolder(string sourceFolder, ZipArchive archive, string entryPrefix)
+    {
+        foreach (var file in Directory.GetFiles(sourceFolder))
+        {
+            var entryName = Path.Combine(entryPrefix, Path.GetFileName(file));
+            var entry = archive.CreateEntry(entryName);
+
+            using (var entryStream = entry.Open())
+            using (var fileStream = new FileStream(file, FileMode.Open, FileAccess.Read))
+            {
+                await fileStream.CopyToAsync(entryStream);
+            }
+        }
+
+        foreach (var subFolder in Directory.GetDirectories(sourceFolder))
+        {
+            var entryName = Path.Combine(entryPrefix, Path.GetFileName(subFolder) + "/");
+            var entry = archive.CreateEntry(entryName);
+
+            await ZipFolder(subFolder, archive, entryName);
+        }
     }
 }

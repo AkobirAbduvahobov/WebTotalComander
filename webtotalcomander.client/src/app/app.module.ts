@@ -11,6 +11,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
+import { IndicatorsModule } from '@progress/kendo-angular-indicators';
+import { SVGIconModule } from '@progress/kendo-angular-icons';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -20,7 +23,8 @@ import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
   imports: [
     BrowserModule, HttpClientModule,
     AppRoutingModule, GridModule,ButtonsModule,
-    BrowserAnimationsModule, FormsModule,ComboBoxModule
+    BrowserAnimationsModule, FormsModule,ComboBoxModule,IndicatorsModule,
+    SVGIconModule, ToastrModule.forRoot()
 
   ],
   providers: [],

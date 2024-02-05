@@ -33,4 +33,9 @@ export class FolderApiService {
     return this.http.get(`https://localhost:7142/api/Folder/getAllWithPagination?offset=${offset}&limit=${limit}&folderPath=${folderPath}` );
   }
 
+  public downloadFolderAsZip(folderPath: string): Observable<any> {
+    
+    return this.http.get<Blob>(`https://localhost:7142/api/Folder/downloadZip?folderPath=${folderPath}`, { observe: 'response', responseType: 'blob' as 'json' });
+  }
+
 }

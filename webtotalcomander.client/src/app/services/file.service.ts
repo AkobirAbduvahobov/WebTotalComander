@@ -29,4 +29,10 @@ export class FileService {
     return this.fileApiService.downloadFile(filePath);
 
   }
+
+  public downloadFileForEdit(filePath: string): Observable<any> {
+
+    return this.fileApiService.downloadFile(filePath);
+
+  }
 }

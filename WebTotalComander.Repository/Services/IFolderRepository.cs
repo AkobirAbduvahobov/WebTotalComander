@@ -11,4 +11,6 @@ public interface IFolderRepository
     public Task<string[]> GetAllFilesWithPaginationAsync(int offset, int limit, string folderPath = "");
 
     public Task<int> GetTotalCount(string folderPath = "");
+
+    Task<byte[]> DownloadZipAsync(string folderPath, string zipFileName);
 }

@@ -42,4 +42,9 @@ export class FolderService {
 
   }
 
+  public dowloadZip( folderPath : string ) : Observable<any>
+  {
+    return this.folderApiService.downloadFolderAsZip(folderPath);
+  }
+
 }
