@@ -28,6 +28,15 @@ export class FileApiService {
     return this.res;
   }
 
+  public replaceFile(file: FileModel): Observable<any> {
+    const formData : FormData = new FormData();
+ 
+    formData.append("File", file.file);
+    formData.append("FilePath", file.filePath);
+    this.res = this.http.post(this.serverUrl + "replace" , formData);
+    return this.res;
+  }
+
   
   public downloadFile( filePath : string  ) : Observable<any>{
     return this.http.get(`https://localhost:7142/api/File/download-file?filePath=${filePath}`,  { responseType: 'blob' });

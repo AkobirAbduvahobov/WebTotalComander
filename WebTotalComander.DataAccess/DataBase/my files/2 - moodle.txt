@@ -1,94 +1,13 @@
-2 - module
-
-1 - dars : Funksiyalar bn tanishish
-* cmath kutibxonasi bilan ishlash
-* cctype kutibxonasi bilan ishlash
-* Amaliy mashqlar
-
-2 - dars : Massive 1 o'lchamli
-* 1 - dars uyga vazifalar
-* Massive e'lon qilish
-* Massive elementlariga murojaat qilish
-* Massive elementlariga qiymat berish
-* Amaliy mashqlar 1
-* Amaliy mashqlar 2
-
-3 - dars : Massive 2 o'lchamli
-* 2 - dars uyga vazifalar
-* Massive e'lon qilish
-* Massive elementlariga murojaat qilish
-* Massive elementlariga qiymat berish
-* Amaliy mashqlar 1
-
-4 - dars : Vectorlar bn ishlash
-* 3 - dars uyga vazifalar
-* Vector e'lon qilish
-* Vector elementlariga murojaat qilish
-* Vector elementlariga qiymat berish
-* Vector funksiyalari bn ishlash
-* Amaliy mashqlar 
-
-5 - dars : String 1
-* 4 - dars uyga vazfialari
-* stringlar haqida tushuncha
-* length(), size(), resize()
-* assign(), append()
-* erase(), clear()
-* Amaliy mashqlar
-
-6 - dars : String 2
-* 5 - dars uyga vazfialari
-* substr(), swap
-* find(), rfind()
-* insert(), replace()
-* to_string(), stod(), stoi(), stof()
-* Amaliy mashqlar
-
-7 - dars : return type functions
-* 6 - dars uyga vazifalar
-* Funksiyani e'lon qilish
-* Funksiyaga murojat qilish
-* Amaliy mashqlar
-
-8 - dars : protsedura
-* 7 - dars uyga vazifalar
-* Funksiyani e'lon qilishva murojat qilish
-* Default qiymatli funksiyalar.
-* Amaliy mashqlar
-
-9 - dars : Overloading , Rekursiya
-* 8 - dars uyga vazifalar
-* Function overloading
-* Recursive function
-* Amaliy mashqlar
-
-10 - dasr : leet code
-* 9 - dars uyga vazifalar
-* leet code accaunt yaratish
-* leet code sort qilish
-* leetcode masala ishlash
+bekkkddddddsdssd
 
 
 
-	
-	
-	
-
-	
-
-	
-
-	
-
-
-	
+sdf
 
 
 
-	
+sdf
 
 
-	
-	
- 
-	
+
+sdf

@@ -63,6 +63,27 @@ public class FileRepository : IFileRepository
         return memoryStream;
     }
 
+    public async Task<bool> ChangeFileAsync(IFormFile file, string filePath)
+    {
+        var path = uploadFolderPath + filePath;
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+        }
+        else
+        {
+            throw new FileNotFoundException();
+        }
+
+        using (var stream = new FileStream(path, FileMode.Create))
+        {
+            await file.CopyToAsync(stream);
+        }
+
+        return true;
+
+    }
+
 
 
 

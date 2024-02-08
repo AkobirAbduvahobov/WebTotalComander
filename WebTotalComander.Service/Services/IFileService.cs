@@ -8,4 +8,5 @@ public interface IFileService
     public Task<bool> SaveFileAsync(FileViewModel fileViewModel);
     public Task<bool> DeleteFileAsync(string fileName, string path = "");
     public Task<MemoryStream> DownloadFileAsync(string filePath = "");
+    public Task<bool> ReplaceFileAsync(FileViewModel fileViewModel);
 }

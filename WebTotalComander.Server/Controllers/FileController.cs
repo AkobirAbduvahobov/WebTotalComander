@@ -29,11 +29,30 @@ public class FileController : ControllerBase
         }*/
 
         var res = await _fileService.SaveFileAsync(fileViewModel);
-
+        Thread.Sleep(800);
         if (res)
             return Ok(res);
 
         return NotFound(false);  
+    }
+
+    [HttpPost("replace")]
+    public async Task<ActionResult<bool>> ReplaceFile([FromForm] FileViewModel fileViewModel)
+    {
+        if (fileViewModel.File == null || fileViewModel.File.Length == 0)
+            return BadRequest(false);
+
+        /* if (fileViewModel.FilePath == "11")
+         {
+             fileViewModel.FilePath = string.Empty;
+         }*/
+
+        var res = await _fileService.ReplaceFileAsync(fileViewModel);
+        Thread.Sleep(800);
+        if (res)
+            return Ok(res);
+
+        return NotFound(false);
     }
 
     [HttpDelete("delete")]
@@ -43,7 +62,7 @@ public class FileController : ControllerBase
             return BadRequest(false);
 
         var res = await _fileService.DeleteFileAsync(fileName, filePath);
-
+        Thread.Sleep(800);
         if (res)
             return Ok(res);
 
@@ -58,7 +77,7 @@ public class FileController : ControllerBase
         var memoryStream = await _fileService.DownloadFileAsync(filePath);
 
         var res = File(memoryStream, $"application/{type}");
-
+        Thread.Sleep(800);
         return res;
     }
 }

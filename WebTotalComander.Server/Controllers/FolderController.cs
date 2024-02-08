@@ -102,7 +102,7 @@ namespace WebTotalComander.Server.Controllers
 
             if (index >= 0 )
             {
-                zipFileName = folderPath.Substring(index);
+                zipFileName = folderPath.Substring(index+1);
             }
             else
                 zipFileName = folderPath;
@@ -110,8 +110,8 @@ namespace WebTotalComander.Server.Controllers
             try
             {
                 var zipFileBytes = await _folderService.DownloadZipAsync(folderPath, zipFileName);
-
-                return File(zipFileBytes, "application/zip", zipFileName);
+                var res = File(zipFileBytes, "application/zip", zipFileName);
+                return res;
             }
             catch (Exception ex)
             {

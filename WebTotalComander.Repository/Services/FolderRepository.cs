@@ -1,4 +1,5 @@
 ﻿
+using System.IO;
 using System.IO.Compression;
 using WebTotalComander.Core.Errors;
 
@@ -74,6 +75,9 @@ public class FolderRepository : IFolderRepository
     public async Task<byte[]> DownloadZipAsync(string folderPath, string zipFileName)
     {
         folderPath = uploadFolderPath + folderPath;
+
+        if (!Directory.Exists(folderPath))
+            throw new DirectoryNotFoundException("Directory was not found");
 
         using (var memoryStream = new MemoryStream())
         {

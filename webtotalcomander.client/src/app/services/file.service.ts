@@ -18,6 +18,15 @@ export class FileService {
     )
   }
 
+  public replaceFile(file: File, filePath: string): Observable<any>{
+    return this.fileApiService.replaceFile(
+      {
+        file : file,
+        filePath: filePath
+      }
+    )
+  }
+
   public deleteFile(filePath: string, fileName : string): Observable<any> {
 
     return this.fileApiService.deleteFile(filePath, fileName);

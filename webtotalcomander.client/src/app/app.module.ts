@@ -8,12 +8,17 @@ import { HomeComponent } from './components/home/home.component';
 
 import { GridModule } from '@progress/kendo-angular-grid';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
 import { IndicatorsModule } from '@progress/kendo-angular-indicators';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import { ToastrModule } from 'ngx-toastr';
+import { DialogModule } from '@progress/kendo-angular-dialog';
+import { PagerModule } from '@progress/kendo-angular-pager';
+import { LabelModule } from '@progress/kendo-angular-label';
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+import { InputsModule } from '@progress/kendo-angular-inputs';
 
 @NgModule({
   declarations: [
@@ -24,7 +29,13 @@ import { ToastrModule } from 'ngx-toastr';
     BrowserModule, HttpClientModule,
     AppRoutingModule, GridModule,ButtonsModule,
     BrowserAnimationsModule, FormsModule,ComboBoxModule,IndicatorsModule,
-    SVGIconModule, ToastrModule.forRoot()
+    SVGIconModule, ToastrModule.forRoot(),
+    DialogModule,PagerModule,FormsModule,
+    ReactiveFormsModule,
+    InputsModule,
+    DateInputsModule,
+    LabelModule,
+    ButtonsModule,
 
   ],
   providers: [],

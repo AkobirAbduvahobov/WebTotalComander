@@ -6,6 +6,8 @@ import { FileService } from '../../services/file.service';
 import { Folder } from '../../services/models/folder';
 import { FolderGet } from '../../services/models/folderGet';
 import { FileExFo } from '../../services/models/fileExFo';
+import { saveAs } from 'file-saver';
+import { Validators, FormControl } from "@angular/forms";
 
 import {
   LoaderType,
@@ -21,10 +23,11 @@ import {
   GridComponent,
   GridItem,
   CellClickEvent,
+  PageChangeEvent,
   
 } from "@progress/kendo-angular-grid";
 import { FormGroup } from '@angular/forms';
-import { saveAs } from '@progress/kendo-drawing/dist/npm/pdf';
+
 import { SVGIcon, arrowRotateCcwIcon, exeIcon, fileAudioIcon, fileExcelIcon, fileImageIcon, filePdfIcon, fileProgrammingIcon, fileTxtIcon, fileTypescriptIcon, fileVideoIcon, fileWordIcon, fileZipIcon, folderIcon, homeIcon, xIcon } from '@progress/kendo-svg-icons';
 import { BreadCrumbItem } from '@progress/kendo-angular-navigation';
 import { ToastrService } from 'ngx-toastr';
@@ -56,9 +59,8 @@ export class HomeComponent implements OnInit {
 
   public isLoading : boolean = false;
 
-  public currentPage = 1;
-  public pageSize = 6; // Or another default value
-  public totalCount: number = 0;
+  
+
 
   public listItems: Number[] = [2,3,4, 6, 8];
   public selectedValue = 4;
@@ -113,20 +115,36 @@ public types: Array<LoaderType> = [
   "converging-spinner",
 ];
 
+public fileContent : string = "";
+public editedFileContent : string = "";
+
+public nameForEditedFile : string = "";
+
+public opened : boolean = false;
+
+public skip = 0;
+public pageSize = 5;
+public totalCount: number = 0;
+
+public isValidEmail: boolean = false;
+
   constructor(private toastr: ToastrService, private folderService: FolderService, private fileService : FileService) { }
-
-
-
- 
-
-
-
 
   ngOnInit(): void {
     //this.getAll(this.path);
-    this.getAllPagination( this.currentPage, this.pageSize, this.path );
+    this.getAllPagination( this.skip, this.pageSize, this.path );
   }
 
+  public onPageChange(e: PageChangeEvent): void {
+    this.skip = e.skip;
+    this.pageSize = e.take;
+    this.getAllPagination( this.skip, this.pageSize, this.path );
+  }
+ 
+
+ 
+
+ 
   
   public getIconForExtension(extension: string): SVGIcon {
     // Check if the extension exists in the fileIcons object, if not, use the default icon        
@@ -134,7 +152,7 @@ public types: Array<LoaderType> = [
    }
 
   onPageSizeChange() {
-    this.getAllPagination( this.currentPage, this.pageSize, this.path );
+    this.getAllPagination( this.skip, this.pageSize, this.path );
     
   }
 
@@ -259,7 +277,7 @@ public types: Array<LoaderType> = [
       this.pathesForward.pop();
       console.log( "Forward : " + this.path )
       console.log( "Forward : " + this.pathesForward )
-      this.getAllPagination( this.currentPage, this.pageSize, this.path );
+      this.getAllPagination(this.skip,this.pageSize, this.path );
     }
 
   }
@@ -281,7 +299,7 @@ public types: Array<LoaderType> = [
       this.path += this.pathes[i];
     }
 
-    this.getAllPagination( this.currentPage, this.pageSize, this.path );
+    this.getAllPagination( this.skip, this.pageSize, this.path );
 
   }
 
@@ -307,14 +325,14 @@ public types: Array<LoaderType> = [
         this.toastr.success( "Folder created successfully " );
         console.log(response);
         console.log("Response")
-        this.getAllPagination( this.currentPage, this.pageSize, this.path );
+        this.getAllPagination(this.skip,this.pageSize, this.path );
         
       },
       (error) => {
         this.toastr.success( "Folder created successfully " );
         console.log(error);
         console.log("Error")
-        this.getAllPagination( this.currentPage, this.pageSize, this.path );
+        this.getAllPagination( this.skip, this.pageSize, this.path );
       }
     )
 
@@ -338,13 +356,13 @@ public types: Array<LoaderType> = [
         this.toastr.success( "File uploaded successfully " );
         console.log(response);
         console.log("Response")
-        this.getAllPagination( this.currentPage, this.pageSize, this.path );
+        this.getAllPagination( this.skip, this.pageSize, this.path );
       },
       (error) => {
         console.log(error);
 
         console.log("Error")
-        this.getAllPagination( this.currentPage, this.pageSize, this.path );
+        this.getAllPagination( this.skip, this.pageSize, this.path );
       }
     )
 
@@ -375,20 +393,43 @@ public types: Array<LoaderType> = [
       (response) => {
         this.toastr.success( "Folder deleted successfully " );
         console.log("response + " + response );
-        this.getAllPagination( this.currentPage, this.pageSize, this.path );
+        this.getAllPagination( this.skip, this.pageSize, this.path );
         
       },
       (error) => {
         console.log("error + " + error );
-        this.getAllPagination( this.currentPage, this.pageSize, this.path );
+        this.getAllPagination( this.skip, this.pageSize, this.path );
       }
 
     )
    
   }
+  private saveFile(response: any): void {
+    const blob = new Blob([response], { type: 'application/zip' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    document.body.appendChild(a);
+    a.style.display = 'none';
+    a.href = url;
+    a.download = 'download.zip';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
 
   public downloadAsZip(filePath : string) : void
   {
+    ++this.flashok;
+    console.log( "zip ga kirdi" );
+    console.log(filePath);
+    filePath = this.path + "/" + filePath;
+    this.folderService.dowloadZip( filePath ).subscribe(
+      (response) => {
+        this.saveFile(response);
+      },
+      (error) => {
+        console.error('Error downloading folder:', error);
+      }
+    )
 
   }
 
@@ -432,34 +473,87 @@ public types: Array<LoaderType> = [
       this.pathesForward.length = 0;
       this.shouldWork++;
       this.path = this.path + "/" + args.dataItem.fileName;
-      this.getAllPagination( this.currentPage, this.pageSize, this.path );
+      this.getAllPagination( this.skip, this.pageSize, this.path );
     }
     else if( args.dataItem.fileExtension !== "folder" && this.flashok === 0)
     {
       this.fileNameWhileDownload = args.dataItem.fileName;
-      const path = this.path + "/"+ args.dataItem.fileName + args.dataItem.fileExtension;
+      const path = this.path + "/"+ args.dataItem.fileName;
       this.downloadFile( path );
     }
     
     this.flashok = 0;
   }
-  public editTxtFile( { dataItem }: EditEvent) : void
+  public getTextOfFile( dataItem : FileExFo) : void
   {
     this.flashok++;
+    this.nameForEditedFile = dataItem.fileName;
+    this.isLoading = true;
     this.fileService.downloadFileForEdit( this.path + "/" +  dataItem.fileName).subscribe(
       (response) =>
       {
         console.log(response);
+        this.handleBlobResponse(response);
+        this.opened = true;
+        this.isLoading = false;
       },
       (error) =>
       {
-        
+        this.isLoading = false;
       }
     )
   }
 
-  public delete({ dataItem }: RemoveEvent): void {
+
+  private handleBlobResponse(blob: Blob): void {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      if (event.target) 
+      { 
+        this.fileContent = event.target.result as string;
+      }
+    };
+    reader.readAsText(blob);
+  }
+
+  public close(status: string): void {
+    console.log(`Dialog result: ${status}`);
+    this.opened = false;
+    if( status === "save" )
+    {
+      
+      this.generateTextFile();
+    }
+    
+  }
+
+  generateTextFile(): void {
+    const blob = new Blob([this.editedFileContent], { type: 'text/plain;charset=utf-8' });
+    
+    this.file = new File([blob], this.nameForEditedFile, { type: 'text/plain' });
+    console.log( "Blob + " + this.file )
+    this.isLoading = true;
+    this.fileService.replaceFile( this.file, this.path + "/" +  this.nameForEditedFile).subscribe(
+      (response) => {
+        this.isLoading = false;
+        console.log( "Response + " + response);
+        this.toastr.success( "File edited successfully " );
+      }, 
+      (error) => {
+        this.isLoading = false;
+        console.log( "Error + " + error );
+      }
+    )
+
+  }
+
+  public open(): void {
+    this.opened = true;
+  }
+
+  public delete( dataItem : FileExFo ): void {
     this.flashok++;
+    console.log( "Delete ga kirdi" );
     if( dataItem.fileExtension === "folder" )
     {
       this.deleteItem(dataItem.fileName);
@@ -472,12 +566,12 @@ public types: Array<LoaderType> = [
         {
           
           console.log("Response of deleteFile " + response);
-          this.getAllPagination( this.currentPage, this.pageSize, this.path );
+          this.getAllPagination( this.skip, this.pageSize, this.path );
           this.toastr.success( "File deleted successfully " );
         },
         (error) => {
           console.log("Error of deleteFile " + error);
-          this.getAllPagination( this.currentPage, this.pageSize, this.path );
+          this.getAllPagination( this.skip, this.pageSize, this.path );
         }
       )
     }
@@ -488,21 +582,7 @@ public types: Array<LoaderType> = [
 
  
 
-  changePage(page: number): void {
-    if (page < 1 || page > this.getTotalPages()) {
-      return;
-    }
-    this.currentPage = page;
-    this.getAllPagination(  this.currentPage, this.pageSize, this.path);
-  }
 
-  getTotalPages(): number {
-    return Math.ceil(this.totalCount / this.pageSize);
-  }
-
-  get pageNumbers(): number[] {
-    return Array.from({ length: this.getTotalPages() }, (_, i) => i + 1);
-  }
 
   
 }
