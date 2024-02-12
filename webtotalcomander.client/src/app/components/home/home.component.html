@@ -1,108 +1,83 @@
 <div class="container">
-
   <div class="mt-2">
-    <button kendoButton size="large" (click)="showInputFolder()" class="me-3">Add folder</button>
-    <button kendoButton size="large" (click)="showInputFile()" class="">Upload file</button>
+    <button kendoButton size="large" (click)="showInputFolder()" class="me-3">
+      Add folder
+    </button>
+    <button kendoButton size="large" (click)="showInputFile()" class="">
+      Upload file
+    </button>
   </div>
   <div class="mt-4" *ngIf="isInputFolderVisible">
-    <div class=" mb-3">
-      <input [(ngModel)]="folderName" type="text" placeholder="Folder Name" required class="border-2 fw-bold">
-      <p class="ms-3" style="color: red;" *ngIf="isValidFolderName">the folder name is invalid</p>
-      
-    
-     
+    <div class="mb-3">
+      <input
+        [(ngModel)]="folderName"
+        type="text"
+        placeholder="Folder Name"
+        required
+        class="border-2 fw-bold"
+      />
+      <p class="ms-3" style="color: red" *ngIf="isValidFolderName">
+        the folder name is invalid
+      </p>
     </div>
     <div>
-      <button kendoButton size="small"(click)="addFolder()" class=" me-2">Yes</button>
-      <button kendoButton size="small"(click)="hideInputFolder()" class="">No</button>
+      <button kendoButton size="small" (click)="addFolder()" class="me-2">
+        Yes
+      </button>
+      <button kendoButton size="small" (click)="hideInputFolder()" class="">
+        No
+      </button>
     </div>
   </div>
 
   <div class="mt-4" *ngIf="isInputFileVisible">
-  
     <div>
-      <input class="" type="file" (change)="onChange($event)">
-      <p class="ms-3" style="color: red;" *ngIf="isValidFile">the file is invalid</p>
+      <input class="" type="file" (change)="onChange($event)" />
+      <p class="ms-3" style="color: red" *ngIf="isValidFile">
+        the file is invalid
+      </p>
     </div>
 
-  <div class="mt-2">
-   <button kendoButton size="small"(click)="uploadFile()" class=" me-2">Yes</button>
-    <button kendoButton size="small"(click)="hideInputFile()" class="">No</button>
-  </div>
+    <div class="mt-2">
+      <button kendoButton size="small" (click)="uploadFile()" class="me-2">
+        Yes
+      </button>
+      <button kendoButton size="small" (click)="hideInputFile()" class="">
+        No
+      </button>
+    </div>
   </div>
 
-
-  <div class="mt-5 text-center" >
+  <div class="mt-5 text-center">
     <h4>
-      <span *ngFor="let path1 of pathes; let i = index" (click)="getIndex(i)">{{ path1 }}</span>
+      <span *ngFor="let path1 of pathes; let i = index" (click)="getIndex(i)">{{
+        path1
+      }}</span>
     </h4>
   </div>
 
-
-
-  <!-- <div class="mt-5">
-    <kendo-filter [filters]="filters" (valueChange)="onFilterChange($event)">
-    </kendo-filter>
-  </div> -->
-
-  <div class=" d-flex justify-content-start mt-5">
-      <button kendoButton size="small" class="me-1" (click)="goToBackOnly()" >^</button>
-      <button kendoButton size="small" class="me-1" (click)="goToBack()" ><</button>
-      <button kendoButton size="small" (click)="goToForward()" class="me-4">></button>
-      <button kendoButton size="small" (click)="openFilter()">Add filter</button>
+  <div class="d-flex justify-content-start mt-5">
+    <button kendoButton size="small" class="me-1" (click)="goToBackOnly()">
+      ^
+    </button>
+    <button kendoButton size="small" class="me-1" (click)="goToBack()">
+      <
+    </button>
+    <button kendoButton size="small" (click)="goToForward()" class="me-4">
+      >
+    </button>
+    <button kendoButton size="small" (click)="openFilter()">Add filter</button>
   </div>
 
-  <div >
-
-  </div>
-
-
-  
-  <!-- <div class="mt-1 text-center">
-    <kendo-grid 
-      [data]="fileExFo" 
-      (cellClick)="cellClickHandler($event)"
-     
-   
-    >
-      <kendo-grid-column field="fileName" title="Name">
-        <ng-template kendoGridCellTemplate let-dataItem>
-          <kendo-svgicon [icon]="getIconForExtension(dataItem.fileExtension)"></kendo-svgicon>
-          {{ dataItem.fileName }}
-        </ng-template>
-      </kendo-grid-column>
-      <kendo-grid-column field="fileExtension" title="Type"></kendo-grid-column>
-      <kendo-grid-column title="Action">
-        <ng-template kendoGridCellTemplate let-dataItem>
-          <ng-container *ngIf="dataItem.fileExtension === '.txt'">
-            <button kendoGridRemoveCommand class="me-4" (click)="delete(dataItem)">Delete</button>
-            <button kendoGridEditCommand class="me-4" (click)="getTextOfFile(dataItem)">Edit</button>
-            <textarea *ngIf="dataItem.isEditing" [(ngModel)]="dataItem.fileContent" rows="10" cols="50"></textarea>
-          </ng-container>
-          
-          <ng-container *ngIf="dataItem.fileExtension === 'folder'">
-
-            <button kendoGridRemoveCommand class="me-4" (click)="delete(dataItem)">Delete</button>
-            <button kendoGridRemoveCommand (click)="downloadAsZip(dataItem.fileName)" class="me-4">Download as Zip</button>
-          </ng-container>
-          <ng-container *ngIf="dataItem.fileExtension !== '.txt' && dataItem.fileExtension !== 'folder'">
-        
-            <button kendoGridRemoveCommand class="me-4" (click)="delete(dataItem)" >Delete</button>
-          </ng-container>
-        </ng-template>
-      </kendo-grid-column>
-    </kendo-grid>
-  </div> -->
-
-  
+  <div></div>
 
   <div class="mt-1 text-center">
-    <kendo-grid 
-      [data]="fileExFo" 
-      (cellClick)="cellClickHandler($event)">
+    <kendo-grid [data]="fileExFo" (cellClick)="cellClickHandler($event)">
       <kendo-grid-column field="fileName" title="Name">
         <ng-template kendoGridCellTemplate let-dataItem>
-          <kendo-svgicon [icon]="getIconForExtension(dataItem.fileExtension)"></kendo-svgicon>
+          <kendo-svgicon
+            [icon]="getIconForExtension(dataItem.fileExtension)"
+          ></kendo-svgicon>
           {{ dataItem.fileName }}
         </ng-template>
       </kendo-grid-column>
@@ -110,16 +85,56 @@
       <kendo-grid-column title="Action">
         <ng-template kendoGridCellTemplate let-dataItem>
           <ng-container *ngIf="dataItem.fileExtension === '.txt'">
-            <button kendoGridRemoveCommand class="me-4" (click)="delete(dataItem)">Delete</button>
-            <button kendoGridEditCommand class="me-4" (click)="getTextOfFile(dataItem)">Edit</button>
-            <textarea *ngIf="dataItem.isEditing" [(ngModel)]="dataItem.fileContent" rows="10" cols="50"></textarea>
+            <button
+              kendoGridRemoveCommand
+              class="me-4"
+              (click)="delete(dataItem)"
+            >
+              Delete
+            </button>
+            <button
+              kendoGridEditCommand
+              class="me-4"
+              (click)="getTextOfFile(dataItem)"
+            >
+              Edit
+            </button>
+            <textarea
+              *ngIf="dataItem.isEditing"
+              [(ngModel)]="dataItem.fileContent"
+              rows="10"
+              cols="50"
+            ></textarea>
           </ng-container>
           <ng-container *ngIf="dataItem.fileExtension === 'folder'">
-            <button kendoGridRemoveCommand class="me-4" (click)="delete(dataItem)">Delete</button>
-            <button kendoGridRemoveCommand (click)="downloadAsZip(dataItem.fileName)" class="me-4">Download as Zip</button>
+            <button
+              kendoGridRemoveCommand
+              class="me-4"
+              (click)="delete(dataItem)"
+            >
+              Delete
+            </button>
+            <button
+              kendoGridRemoveCommand
+              (click)="downloadAsZip(dataItem.fileName)"
+              class="me-4"
+            >
+              Download as Zip
+            </button>
           </ng-container>
-          <ng-container *ngIf="dataItem.fileExtension !== '.txt' && dataItem.fileExtension !== 'folder'">
-            <button kendoGridRemoveCommand class="me-4" (click)="delete(dataItem)" >Delete</button>
+          <ng-container
+            *ngIf="
+              dataItem.fileExtension !== '.txt' &&
+              dataItem.fileExtension !== 'folder'
+            "
+          >
+            <button
+              kendoGridRemoveCommand
+              class="me-4"
+              (click)="delete(dataItem)"
+            >
+              Delete
+            </button>
           </ng-container>
         </ng-template>
       </kendo-grid-column>
@@ -128,96 +143,30 @@
 
   <div>
     <kendo-datapager
-    [total]="totalCount"
-    [pageSize]="pageSize"
-    [skip]="skip"
-    (pageChange)="onPageChange($event)"
-  >
-  </kendo-datapager>
-    </div>
-
-
-  
-
-  <!-- <div class="mt-1 text-center">
-
-    <kendo-grid 
-      [data]="fileExFo" 
-      (cellClick)="cellClickHandler($event)"
-      
-      (remove)="delete($event)"
-      >
-      <kendo-grid-column field="fileName" title="Name"     >
-        <ng-template kendoGridCellTemplate let-dataItem>
-          <kendo-svgicon [icon]="getIconForExtension(dataItem.fileExtension)" ></kendo-svgicon>
-          {{ dataItem.fileName }}
-      </ng-template>      
-      </kendo-grid-column>
-      <kendo-grid-column field="fileExtension" title="Type"> </kendo-grid-column>
-      <kendo-grid-column title="Action">
-        <ng-template kendoGridCellTemplate let-dataItem>
-
-          <button kendoGridRemoveCommand class="me-4">Delete</button>
-          <button kendoGridEditCommand  class="me-4">Edit</button>
-
-        </ng-template>
-      </kendo-grid-column>
-    </kendo-grid>
-
-  </div> -->
-
-  
-<!-- 
-  <div class="container mt-3">
-    <div class="row align-items-center">
-      <div class="col-md-4">
-        <div class="example-wrapper">
-          <div class="example-config mb-1">Items per page</div>
-          <kendo-combobox [data]="listItems" [(ngModel)]="pageSize" (ngModelChange)="onPageSizeChange()"></kendo-combobox>
-        </div>
-      </div>
-      <div class="col-md-3 mt-4 "  *ngIf="isPaginationVisible">
-        <nav aria-label="Page navigation example">
-          <ul class="pagination justify-content-end">
-            <li class="page-item" [class.disabled]="currentPage === 1">
-              <a class="page-link" href="#" (click)="changePage(currentPage - 1)">Previous</a>
-            </li>
-            <li class="page-item" *ngFor="let pageNumber of pageNumbers" [class.active]="currentPage === pageNumber">
-              <a class="page-link" href="#" (click)="changePage(pageNumber)">{{ pageNumber }}</a>
-            </li>
-            <li class="page-item" [class.disabled]="currentPage === getTotalPages()">
-              <a class="page-link" href="#" (click)="changePage(currentPage + 1)">Next</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </div>
+      [total]="totalCount"
+      [pageSize]="pageSize"
+      [skip]="skip"
+      (pageChange)="onPageChange($event)"
+    >
+    </kendo-datapager>
   </div>
-   -->
-
-
-  
 
   <div id="loading" *ngIf="isLoading">
     <div class="example">
       <div class="wrap">
         <div class="example-item" *ngFor="let loader of loaders">
           <div class="example-item-title"></div>
-          
-            <kendo-loader
-              [type]="loader.type"
-              [themeColor]="loader.themeColor"
-              [size]="loader.size"
-            >
-            </kendo-loader>
-          
+
+          <kendo-loader
+            [type]="loader.type"
+            [themeColor]="loader.themeColor"
+            [size]="loader.size"
+          >
+          </kendo-loader>
         </div>
       </div>
     </div>
   </div>
-
-
-  
 
   <div>
     <div>
@@ -228,17 +177,18 @@
         (close)="close('cancel')"
         [minWidth]="850"
         [width]="850"
-        [height] = "600"
+        [height]="600"
       >
-        <div style="margin: 50px; text-align: center;">
+        <div style="margin: 50px; text-align: center">
           <p>Text</p>
-  
+
           <textarea
-            rows="20" cols="120"
+            rows="20"
+            cols="120"
             kendoTextBox
             id="username"
             [placeholder]="fileContent"
-            [style.width.px]="700" 
+            [style.width.px]="700"
             [value]="fileContent"
             [(ngModel)]="editedFileContent"
           ></textarea>
@@ -252,20 +202,18 @@
   </div>
 
   <div>
-    <div>
-     
-      <kendo-dialog
-        *ngIf="openedFilter"
-        autoFocusedElement="#details"
-        title="Filter details"
-        (close)="closeFilter('cancel')"
-        [minWidth]="250"
-        [width]="450"
-      >
-        <div style="margin: 30px; text-align: center;">
-          <p>Enter details</p>
+    <kendo-dialog
+      *ngIf="openedFilter"
+      autoFocusedElement="#details"
+      title="Filter details"
+      (close)="closeFilter('cancel')"
+      [minWidth]="250"
+      [width]="450"
+    >
+      <div style="margin: 30px; text-align: center">
+        <p>Enter details</p>
 
-          <input
+        <input
           kendoTextBox
           id="filename"
           placeholder="File name"
@@ -276,20 +224,17 @@
         <div class="mt-2">
           <kendo-combobox
             [data]="listFilterItems"
-            placeholder="{{extensionResponse}}"
+            placeholder="{{ extensionResponse }}"
             (valueChange)="onTShirtSizeChange($event)"
           ></kendo-combobox>
         </div>
-
-        </div>
-        <kendo-dialog-actions>
-          <button kendoButton (click)="closeFilter('no')">Cancel</button>
-          <button kendoButton (click)="closeFilter('yes')" themeColor="primary">Save</button>
-        </kendo-dialog-actions>
-      </kendo-dialog>
-    </div>
+      </div>
+      <kendo-dialog-actions>
+        <button kendoButton (click)="closeFilter('no')">Cancel</button>
+        <button kendoButton (click)="closeFilter('yes')" themeColor="primary">
+          Save
+        </button>
+      </kendo-dialog-actions>
+    </kendo-dialog>
   </div>
-  
-  
-
 </div>
