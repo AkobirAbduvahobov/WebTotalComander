@@ -7,7 +7,12 @@ namespace WebTotalComander.Repository.Services;
 
 public class FolderRepository : IFolderRepository
 {
-    private static readonly string uploadFolderPath = "D:\\Projects\\WebTotalComander\\WebTotalComander.DataAccess\\DataBase\\";
+    private static string uploadFolderPath = Directory.GetCurrentDirectory() + "\\DataBase\\" ;
+    
+    
+
+   
+
     public async Task<bool> CreateFolderAsync(string folderName, string folderPath = "")
     {
         string path = uploadFolderPath + folderPath + folderName;
@@ -31,6 +36,7 @@ public class FolderRepository : IFolderRepository
 
     public async Task<string[]> GetAllFilesAsync( string folderPath = "" )
     {
+        
         if(folderPath == string.Empty) 
             uploadFolderPath.Remove(uploadFolderPath.Length-1);
 
@@ -59,6 +65,36 @@ public class FolderRepository : IFolderRepository
         return res;
     }
 
+    public async Task<string[]> GetAllWithFilterAsync(int offset, int limit, string ext, string name, string folderPath = "")
+    {
+        if (folderPath == string.Empty)
+            uploadFolderPath.Remove(uploadFolderPath.Length - 1);
+
+        string path = uploadFolderPath + folderPath;
+
+        if (!Directory.Exists(path))
+            throw new DirectoryNotFoundException("Directory was not found");
+        IEnumerable<string> res1;
+
+        var res3 = Directory.GetFileSystemEntries(path);
+        if ( ext != "folder")
+        {
+            res1 = res3.Where(s => s.Substring(1 + s.LastIndexOf("\\")).StartsWith(name) && s.EndsWith(ext));
+        }
+        else
+        {
+            res1 = res3.Where(s => s.Substring(1 + s.LastIndexOf("\\")).StartsWith(name) && !s.Substring(1 + s.LastIndexOf("\\")).Contains('.'));
+        }
+
+         
+
+        var res =res1.Skip(offset).Take(limit).Select(x => x.Remove(0, uploadFolderPath.Length)).ToArray();
+
+        return res;
+    }
+
+
+
     public async Task<int> GetTotalCount(string folderPath = "")
     {
         if (folderPath == string.Empty)
@@ -71,6 +107,10 @@ public class FolderRepository : IFolderRepository
 
         return Directory.GetFileSystemEntries(path).Count();
     }
+
+  
+
+
 
     public async Task<byte[]> DownloadZipAsync(string folderPath, string zipFileName)
     {

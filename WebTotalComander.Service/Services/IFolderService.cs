@@ -9,4 +9,5 @@ public interface IFolderService
     public Task<FolderViewModelResponse> GetAllFilesAsync(string folderPath = "");
     public Task<FilesWithPagination> GetAllFilesWithPaginationAsync(int offset, int limit, string folderPath = "");
     public Task<byte[]> DownloadZipAsync(string folderPath, string zipFileName);
+    public Task<FilesWithPagination> GetAllFilterByExtensionAsync(int offset, int limit, string extension, string fileName, string folderPath);
 }

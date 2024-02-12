@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 
-import { GridModule } from '@progress/kendo-angular-grid';
+import { FilterMenuModule, GridModule } from '@progress/kendo-angular-grid';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
@@ -19,6 +19,7 @@ import { PagerModule } from '@progress/kendo-angular-pager';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { InputsModule } from '@progress/kendo-angular-inputs';
+import { FilterModule } from '@progress/kendo-angular-filter';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,8 @@ import { InputsModule } from '@progress/kendo-angular-inputs';
     DateInputsModule,
     LabelModule,
     ButtonsModule,
+    FilterMenuModule,
+    FilterModule
 
   ],
   providers: [],

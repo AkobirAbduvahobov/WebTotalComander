@@ -31,6 +31,8 @@ import { FormGroup } from '@angular/forms';
 import { SVGIcon, arrowRotateCcwIcon, exeIcon, fileAudioIcon, fileExcelIcon, fileImageIcon, filePdfIcon, fileProgrammingIcon, fileTxtIcon, fileTypescriptIcon, fileVideoIcon, fileWordIcon, fileZipIcon, folderIcon, homeIcon, xIcon } from '@progress/kendo-svg-icons';
 import { BreadCrumbItem } from '@progress/kendo-angular-navigation';
 import { ToastrService } from 'ngx-toastr';
+import { CompositeFilterDescriptor } from '@progress/kendo-data-query';
+import { FilterExpression } from '@progress/kendo-angular-filter';
 
 @Component({
   selector: 'app-home',
@@ -121,24 +123,86 @@ public editedFileContent : string = "";
 public nameForEditedFile : string = "";
 
 public opened : boolean = false;
+public openedFilter : boolean = false;
 
 public skip = 0;
 public pageSize = 5;
 public totalCount: number = 0;
 
-public isValidEmail: boolean = false;
+public isValidFolderName: boolean = false;
+public isValidFile : boolean = false;
+
+public extensionResponse : string = "all";
+public fileNameResponse : string = "";
+
+public pathesForBack : string[] = [];
+
+public filters: FilterExpression[] = [
+  {
+    field: "country",
+    title: "Country",
+    editor: "string",
+    operators: ["neq", "eq"],
+  },
+  {
+    field: "budget",
+    editor: "number",
+  },
+];
+
+public listFilterItems: Array<string> = [
+  "folder",
+  ".mp3",
+  ".mp4",
+  ".jpg",
+  ".txt",
+  ".doc",
+  "all",
+];
 
   constructor(private toastr: ToastrService, private folderService: FolderService, private fileService : FileService) { }
 
   ngOnInit(): void {
     //this.getAll(this.path);
-    this.getAllPagination( this.skip, this.pageSize, this.path );
+    ///this.getAllPagination( this.skip, this.pageSize, this.path );
+
+    this.getWithFilter( this.skip, this.pageSize, this.extensionResponse, this.fileNameResponse, this.path );
+  }
+
+  onTShirtSizeChange(event: string) {
+    console.log('T-shirt size changed:', event);
+    this.extensionResponse = event;
+    // You can perform any additional logic here if needed
+  }
+
+  public closeFilter(status: string): void {
+    if( status ==  "yes" )
+    {
+      console.log(this.extensionResponse  )
+      console.log( this.fileNameResponse );
+
+      if(this.extensionResponse === "all")
+      {
+        this.extensionResponse = "";
+      }
+
+      this.getWithFilter( this.skip, this.pageSize, this.extensionResponse, this.fileNameResponse, this.path );
+    }
+    this.openedFilter = false;
+  }
+
+  public openFilter(): void {
+    this.openedFilter = true;
+  }
+
+  onFilterChange(value: CompositeFilterDescriptor): void {
+    console.log(value);
   }
 
   public onPageChange(e: PageChangeEvent): void {
     this.skip = e.skip;
     this.pageSize = e.take;
-    this.getAllPagination( this.skip, this.pageSize, this.path );
+    this.getWithFilter( this.skip, this.pageSize, this.extensionResponse, this.fileNameResponse, this.path );
   }
  
 
@@ -152,9 +216,51 @@ public isValidEmail: boolean = false;
    }
 
   onPageSizeChange() {
-    this.getAllPagination( this.skip, this.pageSize, this.path );
+    this.getWithFilter( this.skip, this.pageSize, this.extensionResponse, this.fileNameResponse, this.path );
     
   }
+
+
+  public getWithFilter( offset:number, limit:number, extension : string, fileName : string,  folderPath : string): void {
+
+   
+    this.isLoading = true;
+
+    this.folderService.getWithFilter( offset, limit, extension, fileName, folderPath).subscribe(
+      (response) => {
+        
+        this.folderGet = response;
+        this.fileExFo = response.filesWithNamesAndExtensions;
+        this.path = this.folderGet.folderPath;
+        this.totalCount = response.totalCountFolders;
+        console.log( "Total count + " + this.totalCount )
+        
+        this.pathes = this.path.split('/').flatMap(item => (item ? [item, '/'] : ['/']));
+
+        if (this.pathes.length > 0 && this.pathes[this.pathes.length - 1] === '/') 
+        {
+          this.pathes.pop();
+        }
+
+        if( this.maxPathes.length < this.pathes.length )
+        {
+          this.maxPathes = this.pathes;
+        }
+
+        console.log( this.pathes.length );
+
+        this.isLoading = false;
+        this.makePaginationVisible(this.totalCount, this.pageSize);
+
+      },
+      (error) =>{
+        console.log( "Componenta Error " + error);
+        this.isLoading = false;
+        this.makePaginationVisible(this.totalCount, this.pageSize);
+      }
+    )
+  }
+
 
   public getAllPagination( offset:number, limit:number, folderPath : string): void {
 
@@ -268,6 +374,15 @@ public isValidEmail: boolean = false;
     
   }
 
+  public goToBackOnly() : void
+  {
+    if( this.pathes.length > 1 )
+    {
+      this.shouldWork = 0;
+      this.getIndex( this.pathes.length - 2 - 1 );
+    }
+  }
+
   public goToForward() : void
   {
     if( this.shouldWork == 0 && this.pathesForward.length > 0)
@@ -277,7 +392,7 @@ public isValidEmail: boolean = false;
       this.pathesForward.pop();
       console.log( "Forward : " + this.path )
       console.log( "Forward : " + this.pathesForward )
-      this.getAllPagination(this.skip,this.pageSize, this.path );
+      this.getWithFilter( this.skip, this.pageSize, this.extensionResponse, this.fileNameResponse, this.path );
     }
 
   }
@@ -299,7 +414,7 @@ public isValidEmail: boolean = false;
       this.path += this.pathes[i];
     }
 
-    this.getAllPagination( this.skip, this.pageSize, this.path );
+    this.getWithFilter( this.skip, this.pageSize, this.extensionResponse, this.fileNameResponse, this.path );
 
   }
 
@@ -313,26 +428,30 @@ public isValidEmail: boolean = false;
   // }
 
   
-
   public addFolder(): void {
     
-    console.log(this.folderName);
+    if( this.folderName === null || this.folderName === "" )
+    {
+      this.isValidFolderName = true;
+      return;
+    }
+
+    
 
     this.isLoading = true;
 
     this.folderService.createFolder(this.folderName, this.path).subscribe(
       (response) => {
         this.toastr.success( "Folder created successfully " );
-        console.log(response);
-        console.log("Response")
-        this.getAllPagination(this.skip,this.pageSize, this.path );
+     
+        this.folderName = '';
+        this.getWithFilter( this.skip, this.pageSize, this.extensionResponse, this.fileNameResponse, this.path );
         
       },
       (error) => {
         this.toastr.success( "Folder created successfully " );
-        console.log(error);
-        console.log("Error")
-        this.getAllPagination( this.skip, this.pageSize, this.path );
+        this.folderName = '';
+        this.getWithFilter( this.skip, this.pageSize, this.extensionResponse, this.fileNameResponse, this.path );
       }
     )
 
@@ -340,15 +459,38 @@ public isValidEmail: boolean = false;
   }
 
   public showInputFolder(): void {
-    this.isInputFolderVisible = true;
+    
+    if( this.isInputFileVisible == true )
+    {
+      return;
+    }
+    
+    if( this.isInputFolderVisible == true )
+    {
+      this.isInputFolderVisible = false;
+    }
+    else
+      this.isInputFolderVisible = true;
+
+    this.isValidFolderName = false;
 
   }
   public hideInputFolder(): void {
     this.isInputFolderVisible = false;
+    this.isValidFolderName = false;
   }
-
+  
   public uploadFile(): void {
 
+    if( this.file == null ) 
+    {
+      this.isValidFile = true;
+      console.log("null")
+      return;
+      
+    }
+    
+   
     this.isLoading = true;
 
     this.fileService.uploadFolder(this.file, this.path).subscribe(
@@ -378,11 +520,23 @@ public isValidEmail: boolean = false;
   }
 
   public showInputFile(): void {
-    this.isInputFileVisible = true;
+
+    if( this.isInputFolderVisible == true )
+    {
+      return;
+    }
+
+    if( this.isInputFileVisible )
+      this.isInputFileVisible = false;
+    else
+      this.isInputFileVisible = true;
+      
+    this.isValidFile = false;
 
   }
   public hideInputFile(): void {
     this.isInputFileVisible = false;
+    this.isValidFile = false;
   }
 
 
@@ -393,12 +547,12 @@ public isValidEmail: boolean = false;
       (response) => {
         this.toastr.success( "Folder deleted successfully " );
         console.log("response + " + response );
-        this.getAllPagination( this.skip, this.pageSize, this.path );
+        this.getWithFilter( this.skip, this.pageSize, this.extensionResponse, this.fileNameResponse, this.path );
         
       },
       (error) => {
         console.log("error + " + error );
-        this.getAllPagination( this.skip, this.pageSize, this.path );
+        this.getWithFilter( this.skip, this.pageSize, this.extensionResponse, this.fileNameResponse, this.path );
       }
 
     )
@@ -473,7 +627,7 @@ public isValidEmail: boolean = false;
       this.pathesForward.length = 0;
       this.shouldWork++;
       this.path = this.path + "/" + args.dataItem.fileName;
-      this.getAllPagination( this.skip, this.pageSize, this.path );
+      this.getWithFilter( this.skip, this.pageSize, this.extensionResponse, this.fileNameResponse, this.path );
     }
     else if( args.dataItem.fileExtension !== "folder" && this.flashok === 0)
     {
@@ -566,12 +720,12 @@ public isValidEmail: boolean = false;
         {
           
           console.log("Response of deleteFile " + response);
-          this.getAllPagination( this.skip, this.pageSize, this.path );
+          this.getWithFilter( this.skip, this.pageSize, this.extensionResponse, this.fileNameResponse, this.path );
           this.toastr.success( "File deleted successfully " );
         },
         (error) => {
           console.log("Error of deleteFile " + error);
-          this.getAllPagination( this.skip, this.pageSize, this.path );
+          this.getWithFilter( this.skip, this.pageSize, this.extensionResponse, this.fileNameResponse, this.path );
         }
       )
     }

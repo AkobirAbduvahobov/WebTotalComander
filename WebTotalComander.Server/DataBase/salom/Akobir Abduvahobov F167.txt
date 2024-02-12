@@ -1,0 +1,45 @@
+1 savol
+#include <iostream>
+using namespace std;
+int CCC( string s )
+{
+    int a = 0;
+    for( int i = 0 ; i < s.size(); i++ )
+    {
+        ++a;
+    }
+    return a;
+}
+
+int main()
+{
+    
+    string s;
+    cin >> s;
+
+
+    return 0;
+}
+
+2 savol
+3 savol
+4 savol
+#include <iostream>
+using namespace std;
+int main()
+{
+
+    int a;
+    cin >> a;
+    cout << a*a << endl;
+
+
+    return 0;
+}
+
+
+
+5 savol
+6 savol
+
+

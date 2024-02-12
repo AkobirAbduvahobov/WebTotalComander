@@ -5,7 +5,10 @@ namespace WebTotalComander.Repository.Services;
 
 public class FileRepository : IFileRepository
 {
-    private static readonly string uploadFolderPath = "D:\\Projects\\WebTotalComander\\WebTotalComander.DataAccess\\DataBase\\";
+
+    private static string uploadFolderPath = Directory.GetCurrentDirectory() + "\\DataBase\\";
+
+   
 
     public async Task<bool> SaveFileAsync(IFormFile file, string path = "")
     {

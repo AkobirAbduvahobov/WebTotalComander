@@ -13,4 +13,6 @@ public interface IFolderRepository
     public Task<int> GetTotalCount(string folderPath = "");
 
     Task<byte[]> DownloadZipAsync(string folderPath, string zipFileName);
+
+    public Task<string[]> GetAllWithFilterAsync(int offset, int limit, string ext, string name, string folderPath = "");
 }

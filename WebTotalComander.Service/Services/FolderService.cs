@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using WebTotalComander.Repository.Services;
+﻿using WebTotalComander.Repository.Services;
 using WebTotalComander.Service.ViewModels;
 
 namespace WebTotalComander.Service.Services;
@@ -15,7 +14,7 @@ public class FolderService : IFolderService
 
     public async Task<bool> CreateFolderAsync(FolderViewModel folderViewModel)
     {
-        if(folderViewModel.FolderPath != string.Empty)
+        if (folderViewModel.FolderPath != string.Empty)
         {
             folderViewModel.FolderName = "\\" + folderViewModel.FolderName;
         }
@@ -24,7 +23,7 @@ public class FolderService : IFolderService
 
     public async Task<bool> DeleteFolderAsync(string folderPath = "")
     {
-        
+
         return await _folderRepository.DeleteFolderAsync(folderPath);
     }
 
@@ -42,20 +41,20 @@ public class FolderService : IFolderService
             Extensions = extensions,
             Names = names,
             FilesWithNamesAndExtensions = new List<FileObject>()
-            
+
         };
 
         for (int i = 0; i < names.Count; i++)
         {
-            folderViewModelResponse.FilesWithNamesAndExtensions.Add( new FileObject() 
+            folderViewModelResponse.FilesWithNamesAndExtensions.Add(new FileObject()
             { FileExtension = extensions[i], FileName = names[i] });
         }
 
-        if ( resPathes.Length != 0 )
+        if (resPathes.Length != 0)
         {
             var a = resPathes[0].LastIndexOf("\\");
             if (a != -1)
-                folderViewModelResponse.FolderPath = resPathes[0].Substring(0,a);
+                folderViewModelResponse.FolderPath = resPathes[0].Substring(0, a);
             else
                 folderViewModelResponse.FolderPath = null;
         }
@@ -64,7 +63,7 @@ public class FolderService : IFolderService
             folderViewModelResponse.FolderPath = folderPath;
         }
 
-       
+
 
         return folderViewModelResponse;
     }
@@ -75,9 +74,25 @@ public class FolderService : IFolderService
         return await _folderRepository.DownloadZipAsync(folderPath, zipFileName);
     }
 
-    public async Task<FilesWithPagination> GetAllFilesWithPaginationAsync( int offset, int limit,  string folderPath = "")
+    public async Task<int> GetTotalWithFilter( string ext, string name, string folderPath )
     {
-        var resPathes = await _folderRepository.GetAllFilesWithPaginationAsync(offset, limit, folderPath);  
+        var resPathes = await _folderRepository.GetAllFilesAsync(folderPath);
+
+        var extensions = GetFileExtensions(resPathes.ToList());
+        var names = GetFileNamesWithoutExtensions(resPathes.ToList());
+        int counter = 0;
+        for( int i = 0; i < names.Count; i++ )
+        {
+            if (extensions[i].EndsWith(ext) && names[i].StartsWith(name))
+                ++counter;
+        }
+
+        return counter;
+    }
+
+    public async Task<FilesWithPagination> GetAllFilterByExtensionAsync(int offset, int limit, string extension, string fileName, string folderPath)
+    {
+        var resPathes = await _folderRepository.GetAllWithFilterAsync(offset, limit, extension, fileName, folderPath);
 
         var extensions = GetFileExtensions(resPathes.ToList());
         var names = GetFileNamesWithoutExtensions(resPathes.ToList());
@@ -86,7 +101,7 @@ public class FolderService : IFolderService
 
         var filesWithPagination = new FilesWithPagination()
         {
-            FilesWithNamesAndExtensions = new List<FileObject>()     
+            FilesWithNamesAndExtensions = new List<FileObject>()
         };
 
         for (int i = 0; i < names.Count; i++)
@@ -99,7 +114,45 @@ public class FolderService : IFolderService
         {
             var a = resPathes[0].LastIndexOf("\\");
             if (a != -1)
-                filesWithPagination.FolderPath = resPathes[0].Substring(0,a);
+                filesWithPagination.FolderPath = resPathes[0].Substring(0, a);
+            else
+                filesWithPagination.FolderPath = null;
+        }
+        else
+        {
+            filesWithPagination.FolderPath = folderPath;
+        }
+
+        filesWithPagination.TotalCountFolders = await GetTotalWithFilter( extension, fileName, folderPath);
+
+        return filesWithPagination;
+    }
+
+    public async Task<FilesWithPagination> GetAllFilesWithPaginationAsync(int offset, int limit, string folderPath = "")
+    {
+        var resPathes = await _folderRepository.GetAllFilesWithPaginationAsync(offset, limit, folderPath);
+
+        var extensions = GetFileExtensions(resPathes.ToList());
+        var names = GetFileNamesWithoutExtensions(resPathes.ToList());
+
+
+
+        var filesWithPagination = new FilesWithPagination()
+        {
+            FilesWithNamesAndExtensions = new List<FileObject>()
+        };
+
+        for (int i = 0; i < names.Count; i++)
+        {
+            filesWithPagination.FilesWithNamesAndExtensions.Add(new FileObject()
+            { FileExtension = extensions[i], FileName = names[i] });
+        }
+
+        if (resPathes.Length != 0)
+        {
+            var a = resPathes[0].LastIndexOf("\\");
+            if (a != -1)
+                filesWithPagination.FolderPath = resPathes[0].Substring(0, a);
             else
                 filesWithPagination.FolderPath = null;
         }

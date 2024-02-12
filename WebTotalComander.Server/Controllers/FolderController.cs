@@ -92,6 +92,36 @@ namespace WebTotalComander.Server.Controllers
             return Ok(res);
         }
 
+        [HttpGet("getAllFilterByExtension")]
+        public async Task<ActionResult<FilesWithPagination>> GetAllFilterByExtension(int offset, int limit, string extension = "", string fileName = "", string folderPath = "")
+        {
+
+            
+
+            if (fileName == null) fileName = "";
+            if (extension == null) extension = "";
+            if (folderPath == null) folderPath = "";
+            if (offset < 0) offset = 0;
+            if (limit < 0) limit = 0;
+            if (limit > 100) limit = 30;
+
+            var res = await _folderService.GetAllFilterByExtensionAsync(offset, limit, extension, fileName, folderPath);
+
+            Thread.Sleep(800);
+            if (res.FilesWithNamesAndExtensions.Count != 0)
+            {
+                foreach (var file in res.FilesWithNamesAndExtensions)
+                {
+                    if (file.FileExtension != "folder")
+                        file.FileName += file.FileExtension;
+                }
+            }
+
+
+
+            return Ok(res);
+        }
+
 
         [HttpGet("downloadZip")]
         public async Task<IActionResult> DownloadFolder(string folderPath)

@@ -42,6 +42,17 @@ export class FolderService {
 
   }
 
+  public getWithFilter( offset : number, limit : number, extension : string, fileName : string, folderPath: string): Observable<any> {
+    // offset--;
+    // offset = offset * limit;
+    if( extension == "all" )
+    {
+      extension = "";
+    }
+    return this.folderApiService.getFilesFilter( offset, limit, extension, fileName, folderPath);
+
+  }
+
   public dowloadZip( folderPath : string ) : Observable<any>
   {
     return this.folderApiService.downloadFolderAsZip(folderPath);

@@ -7,19 +7,9 @@
   <div class="mt-4" *ngIf="isInputFolderVisible">
     <div class=" mb-3">
       <input [(ngModel)]="folderName" type="text" placeholder="Folder Name" required class="border-2 fw-bold">
-      <p class="ms-3" style="color: red;" *ngIf="isValidEmail">the Email is invalid</p>
+      <p class="ms-3" style="color: red;" *ngIf="isValidFolderName">the folder name is invalid</p>
       
-        <!-- <kendo-formfield>
-          <kendo-label [for]="folderName" text="Folder Name"></kendo-label>
-          <kendo-textbox
-            formControlName="folderName"
-            [clearButton]="true"
-            #fullName
-            required
-          ></kendo-textbox>
-
-          <kendo-formerror>Error: Full Name is required</kendo-formerror>
-        </kendo-formfield> -->
+    
      
     </div>
     <div>
@@ -32,6 +22,7 @@
   
     <div>
       <input class="" type="file" (change)="onChange($event)">
+      <p class="ms-3" style="color: red;" *ngIf="isValidFile">the file is invalid</p>
     </div>
 
   <div class="mt-2">
@@ -49,13 +40,23 @@
 
 
 
+  <!-- <div class="mt-5">
+    <kendo-filter [filters]="filters" (valueChange)="onFilterChange($event)">
+    </kendo-filter>
+  </div> -->
 
-
-  <div class="mt-5 d-flex justify-content-start">
-      <button kendoButton size="small" class="me-1">^</button>
+  <div class=" d-flex justify-content-start mt-5">
+      <button kendoButton size="small" class="me-1" (click)="goToBackOnly()" >^</button>
       <button kendoButton size="small" class="me-1" (click)="goToBack()" ><</button>
-      <button kendoButton size="small" (click)="goToForward()">></button>
+      <button kendoButton size="small" (click)="goToForward()" class="me-4">></button>
+      <button kendoButton size="small" (click)="openFilter()">Add filter</button>
   </div>
+
+  <div >
+
+  </div>
+
+
   
   <!-- <div class="mt-1 text-center">
     <kendo-grid 
@@ -92,6 +93,8 @@
       </kendo-grid-column>
     </kendo-grid>
   </div> -->
+
+  
 
   <div class="mt-1 text-center">
     <kendo-grid 
@@ -217,7 +220,7 @@
   
 
   <div>
-    <div class="example-wrapper1">
+    <div>
       <kendo-dialog
         *ngIf="opened"
         autoFocusedElement="#username"
@@ -242,7 +245,46 @@
         </div>
         <kendo-dialog-actions>
           <button kendoButton (click)="close('no')">No</button>
-          <button kendoButton (click)="close('save')">Save</button> <!-- Changed the event handler to edit() -->
+          <button kendoButton (click)="close('save')">Save</button>
+        </kendo-dialog-actions>
+      </kendo-dialog>
+    </div>
+  </div>
+
+  <div>
+    <div>
+     
+      <kendo-dialog
+        *ngIf="openedFilter"
+        autoFocusedElement="#details"
+        title="Filter details"
+        (close)="closeFilter('cancel')"
+        [minWidth]="250"
+        [width]="450"
+      >
+        <div style="margin: 30px; text-align: center;">
+          <p>Enter details</p>
+
+          <input
+          kendoTextBox
+          id="filename"
+          placeholder="File name"
+          [style.width.px]="200"
+          [(ngModel)]="fileNameResponse"
+        />
+
+        <div class="mt-2">
+          <kendo-combobox
+            [data]="listFilterItems"
+            placeholder="{{extensionResponse}}"
+            (valueChange)="onTShirtSizeChange($event)"
+          ></kendo-combobox>
+        </div>
+
+        </div>
+        <kendo-dialog-actions>
+          <button kendoButton (click)="closeFilter('no')">Cancel</button>
+          <button kendoButton (click)="closeFilter('yes')" themeColor="primary">Save</button>
         </kendo-dialog-actions>
       </kendo-dialog>
     </div>
