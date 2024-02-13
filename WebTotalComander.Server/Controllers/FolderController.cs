@@ -8,7 +8,7 @@ namespace WebTotalComander.Server.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class FolderController : ControllerBase
-    {
+    { // 4
         private readonly IFolderService _folderService;
 
         public FolderController(IFolderService folderService)
