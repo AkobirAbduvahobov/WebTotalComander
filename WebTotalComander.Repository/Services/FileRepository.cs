@@ -75,7 +75,7 @@ public class FileRepository : IFileRepository
         }
         else
         {
-            throw new FileNotFoundException();
+            throw new FileNotFoundException( "No file to change" );
         }
 
         using (var stream = new FileStream(path, FileMode.Create))

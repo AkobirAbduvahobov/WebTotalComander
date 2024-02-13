@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebTotalComander.Core.Errors;
 using WebTotalComander.Service.Services;
 using WebTotalComander.Service.ViewModels;
 
@@ -20,10 +21,10 @@ public class FileController : ControllerBase
     public async Task<ActionResult<bool>> UploadFile([FromForm] FileViewModel fileViewModel)
     {
         if (fileViewModel.File == null || fileViewModel.File.Length == 0)
-            return BadRequest(false);
+            throw new RequestParametrsInvalidExeption("Invalid parametrs");
 
         var res = await _fileService.SaveFileAsync(fileViewModel);
-        Thread.Sleep(800);
+     
         if (res)
             return Ok(res);
 
@@ -34,10 +35,10 @@ public class FileController : ControllerBase
     public async Task<ActionResult<bool>> ReplaceFile([FromForm] FileViewModel fileViewModel)
     {
         if (fileViewModel.File == null || fileViewModel.File.Length == 0)
-            return BadRequest(false);
+            throw new RequestParametrsInvalidExeption("Invalid parametrs");
 
         var res = await _fileService.ReplaceFileAsync(fileViewModel);
-        Thread.Sleep(800);
+      
         if (res)
             return Ok(res);
 
@@ -48,10 +49,10 @@ public class FileController : ControllerBase
     public async Task<ActionResult<bool>> DeleteFile(string fileName, string filePath = "")
     {
         if (fileName == null || fileName.Length == 0)
-            return BadRequest(false);
+             throw new RequestParametrsInvalidExeption("Invalid parametrs");
 
         var res = await _fileService.DeleteFileAsync(fileName, filePath);
-        Thread.Sleep(800);
+      
         if (res)
             return Ok(res);
 
@@ -66,7 +67,7 @@ public class FileController : ControllerBase
         var memoryStream = await _fileService.DownloadFileAsync(filePath);
 
         var res = File(memoryStream, $"application/{type}");
-        Thread.Sleep(800);
+        
         return res;
     }
 }
