@@ -32,12 +32,12 @@ namespace NTierApplication.Web.ActionHelpers
 
             if (actionExecutedContext.Exception is RequestParametrsInvalidExeption)
             {
-                code = 422; // Bad request
+                code = 422; // Unprocessable entry
             }
 
             if (actionExecutedContext.Exception is DirectoryNotFoundException)
             {
-                code = 404; // Bad request
+                code = 404; // Not found
             }
 
             actionExecutedContext.HttpContext.Response.StatusCode = code;
