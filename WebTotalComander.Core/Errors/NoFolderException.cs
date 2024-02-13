@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace WebTotalComander.Core.Errors
 {
     [Serializable]
-    internal class NoFolderException : Exception
+    public class NoFolderException : Exception
     {
         public NoFolderException() { }
         public NoFolderException(string message) : base(message) { }
