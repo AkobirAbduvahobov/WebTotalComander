@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using WebTotalComander.Service.Services;
 using WebTotalComander.Service.ViewModels;
 
@@ -18,22 +17,17 @@ public class FileController : ControllerBase
     }
 
     [HttpPost("upload")]
-    public async Task<ActionResult<bool>> UploadFile( [FromForm] FileViewModel fileViewModel)
+    public async Task<ActionResult<bool>> UploadFile([FromForm] FileViewModel fileViewModel)
     {
         if (fileViewModel.File == null || fileViewModel.File.Length == 0)
             return BadRequest(false);
-
-       /* if (fileViewModel.FilePath == "11")
-        {
-            fileViewModel.FilePath = string.Empty;
-        }*/
 
         var res = await _fileService.SaveFileAsync(fileViewModel);
         Thread.Sleep(800);
         if (res)
             return Ok(res);
 
-        return NotFound(false);  
+        return NotFound(false);
     }
 
     [HttpPost("replace")]
@@ -41,11 +35,6 @@ public class FileController : ControllerBase
     {
         if (fileViewModel.File == null || fileViewModel.File.Length == 0)
             return BadRequest(false);
-
-        /* if (fileViewModel.FilePath == "11")
-         {
-             fileViewModel.FilePath = string.Empty;
-         }*/
 
         var res = await _fileService.ReplaceFileAsync(fileViewModel);
         Thread.Sleep(800);
@@ -56,7 +45,7 @@ public class FileController : ControllerBase
     }
 
     [HttpDelete("delete")]
-    public async Task<ActionResult<bool>> DeleteFile(string fileName, string filePath="")
+    public async Task<ActionResult<bool>> DeleteFile(string fileName, string filePath = "")
     {
         if (fileName == null || fileName.Length == 0)
             return BadRequest(false);
@@ -72,8 +61,8 @@ public class FileController : ControllerBase
     [HttpGet("download-file")]
     public async Task<IActionResult> DownloadFile(string filePath)
     {
-        var type = filePath.Substring(filePath.LastIndexOf('.') + 1 );   
-        
+        var type = filePath.Substring(filePath.LastIndexOf('.') + 1);
+
         var memoryStream = await _fileService.DownloadFileAsync(filePath);
 
         var res = File(memoryStream, $"application/{type}");

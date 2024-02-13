@@ -8,14 +8,14 @@ public class FileRepository : IFileRepository
 
     private static string uploadFolderPath = Directory.GetCurrentDirectory() + "\\DataBase\\";
 
-   
+
 
     public async Task<bool> SaveFileAsync(IFormFile file, string path = "")
     {
         var filePath = Path.Combine(uploadFolderPath + path, file.FileName);
 
         string path1 = "";
-        if(path != string.Empty)
+        if (path != string.Empty)
         {
             path1 = path.Remove(path.Length - 1);
         }
@@ -52,13 +52,13 @@ public class FileRepository : IFileRepository
 
     public async Task<MemoryStream> DownloadFileAsync(string filePath)
     {
-        if(!File.Exists(uploadFolderPath + filePath))
+        if (!File.Exists(uploadFolderPath + filePath))
         {
             throw new FileNotFoundException("File was not found to download");
         }
 
         var memoryStream = new MemoryStream();
-        using (var stream = new FileStream(uploadFolderPath+filePath, FileMode.Open))
+        using (var stream = new FileStream(uploadFolderPath + filePath, FileMode.Open))
         {
             await stream.CopyToAsync(memoryStream);
         }

@@ -11,9 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebTotalComander.Service", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebTotalComander.Repository", "WebTotalComander.Repository\WebTotalComander.Repository.csproj", "{EE2689C5-4FA8-4F04-84D8-A26BFCC4F198}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebTotalComander.DataAccess", "WebTotalComander.DataAccess\WebTotalComander.DataAccess.csproj", "{64A9DB42-FE71-439D-8E07-0B1AE7FB90B3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebTotalComander.Core", "WebTotalComander.Core\WebTotalComander.Core.csproj", "{0389B061-7F0F-408F-A79F-041AE881DCB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebTotalComander.Core", "WebTotalComander.Core\WebTotalComander.Core.csproj", "{0389B061-7F0F-408F-A79F-041AE881DCB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,10 +37,6 @@ Global
 		{EE2689C5-4FA8-4F04-84D8-A26BFCC4F198}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE2689C5-4FA8-4F04-84D8-A26BFCC4F198}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE2689C5-4FA8-4F04-84D8-A26BFCC4F198}.Release|Any CPU.Build.0 = Release|Any CPU
-		{64A9DB42-FE71-439D-8E07-0B1AE7FB90B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{64A9DB42-FE71-439D-8E07-0B1AE7FB90B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{64A9DB42-FE71-439D-8E07-0B1AE7FB90B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{64A9DB42-FE71-439D-8E07-0B1AE7FB90B3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0389B061-7F0F-408F-A79F-041AE881DCB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0389B061-7F0F-408F-A79F-041AE881DCB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0389B061-7F0F-408F-A79F-041AE881DCB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
