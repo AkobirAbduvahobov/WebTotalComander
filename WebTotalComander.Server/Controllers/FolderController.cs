@@ -79,7 +79,7 @@ namespace WebTotalComander.Server.Controllers
             if (offset < 0) offset = 0;
             if (limit < 0) limit = 0;
             if (limit > 100) limit = 30;
-
+            //jk
             var res = await _folderService.GetAllFilterByExtensionAsync(offset, limit, extension, fileName, folderPath);
 
             Thread.Sleep(800);
