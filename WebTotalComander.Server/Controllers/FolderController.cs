@@ -16,7 +16,7 @@ namespace WebTotalComander.Server.Controllers
             _folderService = folderService;
         }
 
-        [HttpPost("create")]
+        [HttpPost("create")]  /// we
         public async Task<IActionResult> CreateFolder(FolderViewModel folderViewModel)
         {
             if (folderViewModel.FolderName == null || folderViewModel.FolderName == string.Empty)

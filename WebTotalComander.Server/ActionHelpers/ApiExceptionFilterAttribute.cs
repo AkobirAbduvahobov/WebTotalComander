@@ -12,12 +12,12 @@ namespace NTierApplication.Web.ActionHelpers
             var code = 500;
             if (actionExecutedContext.Exception is FileAlreadyExistException)
             {
-                code = 409; // HTTP for Not Found
+                code = 409; // Exist
             }
 
             if (actionExecutedContext.Exception is FolderAlreadyExistException)
             {
-                code = 409; // Bad request
+                code = 409; // Exist
             }
 
             if (actionExecutedContext.Exception is NoFileException)
@@ -32,12 +32,12 @@ namespace NTierApplication.Web.ActionHelpers
 
             if (actionExecutedContext.Exception is RequestParametrsInvalidExeption)
             {
-                code = 422; // Bad request
+                code = 422; // Unprocessable entry
             }
 
             if (actionExecutedContext.Exception is DirectoryNotFoundException)
             {
-                code = 404; // Bad request
+                code = 404; // Not found
             }
 
             actionExecutedContext.HttpContext.Response.StatusCode = code;
