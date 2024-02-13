@@ -12,12 +12,12 @@ namespace NTierApplication.Web.ActionHelpers
             var code = 500;
             if (actionExecutedContext.Exception is FileAlreadyExistException)
             {
-                code = 409; // HTTP for Not Found
+                code = 409; // Exist
             }
 
             if (actionExecutedContext.Exception is FolderAlreadyExistException)
             {
-                code = 409; // Bad request
+                code = 409; // Exist
             }
 
             if (actionExecutedContext.Exception is NoFileException)
