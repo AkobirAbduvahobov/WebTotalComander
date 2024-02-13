@@ -73,7 +73,7 @@ public class FolderRepository : IFolderRepository
             res1 = res3.Where(s => s.Substring(1 + s.LastIndexOf("\\")).StartsWith(name) && s.EndsWith(ext));
         }
         else
-        {
+        {   
             res1 = res3.Where(s => s.Substring(1 + s.LastIndexOf("\\")).StartsWith(name) && !s.Substring(1 + s.LastIndexOf("\\")).Contains('.'));
         }
 

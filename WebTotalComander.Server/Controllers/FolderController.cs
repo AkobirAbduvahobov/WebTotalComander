@@ -40,7 +40,7 @@ public class FolderController : ControllerBase
             return Ok(true);
 
         return NotFound(false);
-    } ///555
+    } 
 
     [HttpGet("getAll")]
     public async Task<ActionResult<FolderViewModelResponse>> GetAllFiles(string folderPath = "")
@@ -91,6 +91,7 @@ public class FolderController : ControllerBase
             }
         }
 
+        Thread.Sleep(800);
         return Ok(res);
     }
 
