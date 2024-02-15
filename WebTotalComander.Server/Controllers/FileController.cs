@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.IO;
 using WebTotalComander.Core.Errors;
 using WebTotalComander.Service.Services;
 using WebTotalComander.Service.ViewModels;
@@ -18,12 +19,15 @@ public class FileController : ControllerBase
     }
 
     [HttpPost("upload")]
+    [DisableRequestSizeLimit]
     public async Task<ActionResult<bool>> UploadFile([FromForm] FileViewModel fileViewModel)
     {
         if (fileViewModel.File == null || fileViewModel.File.Length == 0)
             throw new RequestParametrsInvalidExeption("Invalid parametrs");
 
-        var res = await _fileService.SaveFileAsync(fileViewModel);
+        var stream = fileViewModel.File.OpenReadStream();
+        
+        var res = await _fileService.SaveFileAsync(stream , fileViewModel.File.FileName, fileViewModel.FilePath);
      
         if (res)
             return Ok(res);
@@ -60,6 +64,7 @@ public class FileController : ControllerBase
     }
 
     [HttpGet("download-file")]
+    [DisableRequestSizeLimit]
     public async Task<IActionResult> DownloadFile(string filePath)
     {
         var type = filePath.Substring(filePath.LastIndexOf('.') + 1);

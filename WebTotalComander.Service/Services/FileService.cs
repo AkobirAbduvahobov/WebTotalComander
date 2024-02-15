@@ -13,13 +13,13 @@ public class FileService : IFileService
         _fileRepository = fileRepository;
     }
 
-    public async Task<bool> SaveFileAsync(FileViewModel fileViewModel)
+    public async Task<bool> SaveFileAsync(Stream stream , string fileName, string filePath)
     {
-        if (fileViewModel.FilePath != string.Empty)
+        if (filePath != string.Empty)
         {
-            fileViewModel.FilePath += "\\";
+            filePath += "\\";
         }
-        return await _fileRepository.SaveFileAsync(fileViewModel.File, fileViewModel.FilePath);
+        return await _fileRepository.SaveFileAsync(stream, fileName, filePath);
     }
 
     public async Task<bool> ReplaceFileAsync(FileViewModel fileViewModel)

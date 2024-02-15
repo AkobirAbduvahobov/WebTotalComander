@@ -97,6 +97,7 @@ public class FolderController : ControllerBase
 
 
     [HttpGet("downloadZip")]
+    [DisableRequestSizeLimit]
     public async Task<IActionResult> DownloadFolder(string folderPath)
     {
 
