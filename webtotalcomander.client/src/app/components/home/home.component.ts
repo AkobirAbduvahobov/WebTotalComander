@@ -194,7 +194,7 @@ export class HomeComponent implements OnInit {
 
   public loadData(): void {
     this.isLoading = true;
-
+    console.log( "Salom" );
     this.folderService
       .getWithFilter(this.skip, this.pageSize, this.extensionResponse, this.fileNameResponse, this.path)
       .subscribe(
