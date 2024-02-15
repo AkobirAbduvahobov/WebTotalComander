@@ -1,23 +1,15 @@
-﻿
-using System.IO;
-using System.IO.Compression;
-using WebTotalComander.Core.Errors;
-
+﻿using System.IO.Compression;
 namespace WebTotalComander.Repository.Services;
 
 public class FolderRepository : IFolderRepository
 {
-    private static string uploadFolderPath = Directory.GetCurrentDirectory() + "\\DataBase\\" ;
-    
-    
-
-   
+    private static string uploadFolderPath = Directory.GetCurrentDirectory() + "\\DataBase\\";
 
     public async Task<bool> CreateFolderAsync(string folderName, string folderPath = "")
     {
         string path = uploadFolderPath + folderPath + folderName;
         if (Directory.Exists(path))
-            throw new FolderAlreadyExistException("Folder already exist");
+            throw new FileNotFoundException("Folder already exist");
 
         Directory.CreateDirectory(path);
         return true;
@@ -30,15 +22,14 @@ public class FolderRepository : IFolderRepository
             throw new DirectoryNotFoundException("Directory was not found");
 
         //Directory.Delete(folderPath, recursive: true);
-        Directory.Delete(path, recursive:true);
+        Directory.Delete(path, recursive: true);
         return true;
     }
 
-    public async Task<string[]> GetAllFilesAsync( string folderPath = "" )
+    public async Task<string[]> GetAllFilesAsync(string folderPath = "")
     {
-        
-        if(folderPath == string.Empty) 
-            uploadFolderPath.Remove(uploadFolderPath.Length-1);
+        if (folderPath == string.Empty)
+            uploadFolderPath.Remove(uploadFolderPath.Length - 1);
 
         string path = uploadFolderPath + folderPath;
 
@@ -50,12 +41,12 @@ public class FolderRepository : IFolderRepository
         return res;
     }
 
-    public async Task<string[]> GetAllFilesWithPaginationAsync( int offset, int limit,  string folderPath = "")
+    public async Task<string[]> GetAllFilesWithPaginationAsync(int offset, int limit, string folderPath = "")
     {
         if (folderPath == string.Empty)
             uploadFolderPath.Remove(uploadFolderPath.Length - 1);
 
-        string path = uploadFolderPath + folderPath;
+        var path = uploadFolderPath + folderPath;
 
         if (!Directory.Exists(path))
             throw new DirectoryNotFoundException("Directory was not found");
@@ -77,23 +68,18 @@ public class FolderRepository : IFolderRepository
         IEnumerable<string> res1;
 
         var res3 = Directory.GetFileSystemEntries(path);
-        if ( ext != "folder")
+        if (ext != "folder")
         {
             res1 = res3.Where(s => s.Substring(1 + s.LastIndexOf("\\")).StartsWith(name) && s.EndsWith(ext));
         }
         else
-        {
+        {   
             res1 = res3.Where(s => s.Substring(1 + s.LastIndexOf("\\")).StartsWith(name) && !s.Substring(1 + s.LastIndexOf("\\")).Contains('.'));
         }
 
-         
-
-        var res =res1.Skip(offset).Take(limit).Select(x => x.Remove(0, uploadFolderPath.Length)).ToArray();
-
+        var res = res1.Skip(offset).Take(limit).Select(x => x.Remove(0, uploadFolderPath.Length)).ToArray();
         return res;
     }
-
-
 
     public async Task<int> GetTotalCount(string folderPath = "")
     {
@@ -107,10 +93,6 @@ public class FolderRepository : IFolderRepository
 
         return Directory.GetFileSystemEntries(path).Count();
     }
-
-  
-
-
 
     public async Task<byte[]> DownloadZipAsync(string folderPath, string zipFileName)
     {

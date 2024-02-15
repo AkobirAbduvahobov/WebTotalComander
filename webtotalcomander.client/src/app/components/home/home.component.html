@@ -66,13 +66,31 @@
     <button kendoButton size="small" (click)="goToForward()" class="me-4">
       >
     </button>
-    <button kendoButton size="small" (click)="openFilter()">Add filter</button>
+    
   </div>
 
   <div></div>
 
   <div class="mt-1 text-center">
-    <kendo-grid [data]="fileExFo" (cellClick)="cellClickHandler($event)">
+    <kendo-grid 
+    [data]="itemsView" 
+    [loading]="isLoading" 
+    [pageSize]="pageSize" 
+    [skip]="skip"
+    [pageable]="{
+      buttonCount: buttonCount,
+      info: info,
+      type: type,
+      pageSizes: pageSizes,
+      previousNext: previousNext,
+      position: position
+    }"
+    
+    [sortable]="true" 
+    filterable="menu"
+    (cellClick)="cellClickHandler($event)"
+    (dataStateChange)="itemsDataStateChange($event)">
+    
       <kendo-grid-column field="fileName" title="Name">
         <ng-template kendoGridCellTemplate let-dataItem>
           <kendo-svgicon
@@ -142,33 +160,6 @@
   </div>
 
   <div>
-    <kendo-datapager
-      [total]="totalCount"
-      [pageSize]="pageSize"
-      [skip]="skip"
-      (pageChange)="onPageChange($event)"
-    >
-    </kendo-datapager>
-  </div>
-
-  <div id="loading" *ngIf="isLoading">
-    <div class="example">
-      <div class="wrap">
-        <div class="example-item" *ngFor="let loader of loaders">
-          <div class="example-item-title"></div>
-
-          <kendo-loader
-            [type]="loader.type"
-            [themeColor]="loader.themeColor"
-            [size]="loader.size"
-          >
-          </kendo-loader>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div>
     <div>
       <kendo-dialog
         *ngIf="opened"
@@ -201,40 +192,4 @@
     </div>
   </div>
 
-  <div>
-    <kendo-dialog
-      *ngIf="openedFilter"
-      autoFocusedElement="#details"
-      title="Filter details"
-      (close)="closeFilter('cancel')"
-      [minWidth]="250"
-      [width]="450"
-    >
-      <div style="margin: 30px; text-align: center">
-        <p>Enter details</p>
-
-        <input
-          kendoTextBox
-          id="filename"
-          placeholder="File name"
-          [style.width.px]="200"
-          [(ngModel)]="fileNameResponse"
-        />
-
-        <div class="mt-2">
-          <kendo-combobox
-            [data]="listFilterItems"
-            placeholder="{{ extensionResponse }}"
-            (valueChange)="onTShirtSizeChange($event)"
-          ></kendo-combobox>
-        </div>
-      </div>
-      <kendo-dialog-actions>
-        <button kendoButton (click)="closeFilter('no')">Cancel</button>
-        <button kendoButton (click)="closeFilter('yes')" themeColor="primary">
-          Save
-        </button>
-      </kendo-dialog-actions>
-    </kendo-dialog>
-  </div>
 </div>

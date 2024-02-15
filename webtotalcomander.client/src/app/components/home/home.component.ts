@@ -11,7 +11,11 @@ import {
 } from '@progress/kendo-angular-indicators';
 import {
   CellClickEvent,
+  DataStateChangeEvent,
+  GridDataResult,
   PageChangeEvent,
+  PagerPosition,
+  PagerType,
 } from '@progress/kendo-angular-grid';
 
 
@@ -63,6 +67,7 @@ export class HomeComponent implements OnInit {
   public fileExFo: FileExFo[] = [];
 
   public isLoading: boolean = false;
+  
 
   public listItems: Number[] = [2, 3, 4, 6, 8];
   public selectedValue = 4;
@@ -163,63 +168,15 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    //this.getAll(this.path);
-    ///this.getAllPagination( this.skip, this.pageSize, this.path );
-
-    this.getWithFilter(
-      this.skip,
-      this.pageSize,
-      this.extensionResponse,
-      this.fileNameResponse,
-      this.path
-    );
+    this.loadData();
   }
 
-  onTShirtSizeChange(event: string) {
-    console.log('T-shirt size changed:', event);
-    this.extensionResponse = event;
-    // You can perform any additional logic here if needed
-  }
-
-  public closeFilter(status: string): void {
-    if (status == 'yes') {
-      console.log(this.extensionResponse);
-      console.log(this.fileNameResponse);
-
-      if (this.extensionResponse === 'all') {
-        this.extensionResponse = '';
-      }
-
-      this.getWithFilter(
-        this.skip,
-        this.pageSize,
-        this.extensionResponse,
-        this.fileNameResponse,
-        this.path
-      );
-    }
-    this.openedFilter = false;
-  }
-
-  public openFilter(): void {
-    this.openedFilter = true;
-  }
-
-  onFilterChange(value: CompositeFilterDescriptor): void {
-    console.log(value);
-  }
-
-  public onPageChange(e: PageChangeEvent): void {
-    this.skip = e.skip;
-    this.pageSize = e.take;
-    this.getWithFilter(
-      this.skip,
-      this.pageSize,
-      this.extensionResponse,
-      this.fileNameResponse,
-      this.path
-    );
-  }
+  public type: PagerType = "numeric";
+  public buttonCount = 4;
+  public info = true;
+  public pageSizes = true;
+  public previousNext = true;
+  public position: PagerPosition = "bottom";
 
   public getIconForExtension(extension: string): SVGIcon {
     // Check if the extension exists in the fileIcons object, if not, use the default icon
@@ -227,34 +184,27 @@ export class HomeComponent implements OnInit {
   }
 
   onPageSizeChange() {
-    this.getWithFilter(
-      this.skip,
-      this.pageSize,
-      this.extensionResponse,
-      this.fileNameResponse,
-      this.path
-    );
+    this.loadData()
   }
 
-  public getWithFilter(
-    offset: number,
-    limit: number,
-    extension: string,
-    fileName: string,
-    folderPath: string
-  ): void {
-    this.isLoading = true;
+  public itemsView: GridDataResult = {
+    data: [],
+    total: 0
+  };
 
+  public loadData(): void {
+    this.isLoading = true;
+    console.log( "Salom" );
     this.folderService
-      .getWithFilter(offset, limit, extension, fileName, folderPath)
+      .getWithFilter(this.skip, this.pageSize, this.extensionResponse, this.fileNameResponse, this.path)
       .subscribe(
         (response) => {
+          this.itemsView = {
+            data: response.filesWithNamesAndExtensions,
+            total: response.totalCountFolders
+          };
           this.folderGet = response;
-          this.fileExFo = response.filesWithNamesAndExtensions;
           this.path = this.folderGet.folderPath;
-          this.totalCount = response.totalCountFolders;
-          console.log('Total count + ' + this.totalCount);
-
           this.pathes = this.path
             .split('/')
             .flatMap((item) => (item ? [item, '/'] : ['/']));
@@ -265,111 +215,15 @@ export class HomeComponent implements OnInit {
           ) {
             this.pathes.pop();
           }
-
-          if (this.maxPathes.length < this.pathes.length) {
-            this.maxPathes = this.pathes;
-          }
-
-          console.log(this.pathes.length);
-
-          this.isLoading = false;
-          this.makePaginationVisible(this.totalCount, this.pageSize);
+          this.isLoading = false; 
         },
         (error) => {
           console.log('Componenta Error ' + error);
           this.isLoading = false;
-          this.makePaginationVisible(this.totalCount, this.pageSize);
         }
       );
   }
 
-  public getAllPagination(
-    offset: number,
-    limit: number,
-    folderPath: string
-  ): void {
-    this.isLoading = true;
-
-    this.folderService.getAllPagination(offset, limit, folderPath).subscribe(
-      (response) => {
-        this.folderGet = response;
-        this.fileExFo = response.filesWithNamesAndExtensions;
-        this.path = this.folderGet.folderPath;
-        this.totalCount = response.totalCountFolders;
-        console.log('Total count + ' + this.totalCount);
-
-        this.pathes = this.path
-          .split('/')
-          .flatMap((item) => (item ? [item, '/'] : ['/']));
-
-        if (
-          this.pathes.length > 0 &&
-          this.pathes[this.pathes.length - 1] === '/'
-        ) {
-          this.pathes.pop();
-        }
-
-        if (this.maxPathes.length < this.pathes.length) {
-          this.maxPathes = this.pathes;
-        }
-
-        console.log(this.pathes.length);
-
-        this.isLoading = false;
-        this.makePaginationVisible(this.totalCount, this.pageSize);
-      },
-      (error) => {
-        console.log('Componenta Error ' + error);
-        this.isLoading = false;
-        this.makePaginationVisible(this.totalCount, this.pageSize);
-      }
-    );
-  }
-  public makePaginationVisible(totalCount1: number, pageSize1: number): void {
-    if (Math.ceil(totalCount1 / pageSize1) == 1) {
-      this.isPaginationVisible = false;
-    } else if (totalCount1 == 0) {
-      this.isPaginationVisible = false;
-    } else {
-      this.isPaginationVisible = true;
-    }
-  }
-
-  public getAll(folderPath: string): void {
-    this.folderService.getAll(folderPath).subscribe(
-      (response) => {
-        this.folderGet = response;
-        this.fileExFo = response.filesWithNamesAndExtensions;
-        this.path = this.folderGet.folderPath;
-
-        this.pathes = this.path
-          .split('/')
-          .flatMap((item) => (item ? [item, '/'] : ['/']));
-
-        if (
-          this.pathes.length > 0 &&
-          this.pathes[this.pathes.length - 1] === '/'
-        ) {
-          this.pathes.pop();
-        }
-
-        if (this.maxPathes.length < this.pathes.length) {
-          this.maxPathes = this.pathes;
-        }
-
-        console.log(this.pathes.length);
-
-        // console.log( "1 " + this.folderGet.extensions );
-        // console.log( "2 " + this.folderGet.names );
-        // console.log( "3 " + this.folderGet.folderPath );
-        // console.log( "4 " + this.folderGet.filesWithNamesAndExtensions );
-        // console.log( "5 " + this.fileExFo[0].fileName );
-      },
-      (error) => {
-        console.log('Componenta Error ' + error);
-      }
-    );
-  }
 
   public goToBack(): void {
     if (this.pathes.length > 1) {
@@ -397,13 +251,7 @@ export class HomeComponent implements OnInit {
       this.pathesForward.pop();
       console.log('Forward : ' + this.path);
       console.log('Forward : ' + this.pathesForward);
-      this.getWithFilter(
-        this.skip,
-        this.pageSize,
-        this.extensionResponse,
-        this.fileNameResponse,
-        this.path
-      );
+      this.loadData();
     }
   }
 
@@ -420,23 +268,8 @@ export class HomeComponent implements OnInit {
       this.path += this.pathes[i];
     }
 
-    this.getWithFilter(
-      this.skip,
-      this.pageSize,
-      this.extensionResponse,
-      this.fileNameResponse,
-      this.path
-    );
+    this.loadData();
   }
-
-  // onCellClick(event: any): void {
-  //   if( event.dataItem?.fileExtension == "folder" )
-  //   {
-  //     this.path = this.path + '/' +  event.dataItem?.fileName;
-  //   }
-
-  //   this.getAll(this.path);
-  // }
 
   public addFolder(): void {
     if (this.folderName === null || this.folderName === '') {
@@ -451,24 +284,12 @@ export class HomeComponent implements OnInit {
         this.toastr.success('Folder created successfully ');
 
         this.folderName = '';
-        this.getWithFilter(
-          this.skip,
-          this.pageSize,
-          this.extensionResponse,
-          this.fileNameResponse,
-          this.path
-        );
+        this.loadData();
       },
       (error) => {
         this.toastr.success('Folder created successfully ');
         this.folderName = '';
-        this.getWithFilter(
-          this.skip,
-          this.pageSize,
-          this.extensionResponse,
-          this.fileNameResponse,
-          this.path
-        );
+        this.loadData();
       }
     );
 
@@ -505,13 +326,13 @@ export class HomeComponent implements OnInit {
         this.toastr.success('File uploaded successfully ');
         console.log(response);
         console.log('Response');
-        this.getAllPagination(this.skip, this.pageSize, this.path);
+        this.loadData();
       },
       (error) => {
         console.log(error);
 
         console.log('Error');
-        this.getAllPagination(this.skip, this.pageSize, this.path);
+        this.loadData();
       }
     );
 
@@ -546,23 +367,11 @@ export class HomeComponent implements OnInit {
       (response) => {
         this.toastr.success('Folder deleted successfully ');
         console.log('response + ' + response);
-        this.getWithFilter(
-          this.skip,
-          this.pageSize,
-          this.extensionResponse,
-          this.fileNameResponse,
-          this.path
-        );
+        this.loadData();
       },
       (error) => {
         console.log('error + ' + error);
-        this.getWithFilter(
-          this.skip,
-          this.pageSize,
-          this.extensionResponse,
-          this.fileNameResponse,
-          this.path
-        );
+        this.loadData();
       }
     );
   }
@@ -624,19 +433,20 @@ export class HomeComponent implements OnInit {
     );
   }
 
+  public itemsDataStateChange( data :  DataStateChangeEvent): void{
+    this.skip = data.skip;
+    this.pageSize = data.take;
+    this.loadData();
+  }
+
   public cellClickHandler(args: CellClickEvent): void {
+    
     console.log('cell works');
     if (args.dataItem.fileExtension === 'folder' && this.flashok === 0) {
       this.pathesForward.length = 0;
       this.shouldWork++;
       this.path = this.path + '/' + args.dataItem.fileName;
-      this.getWithFilter(
-        this.skip,
-        this.pageSize,
-        this.extensionResponse,
-        this.fileNameResponse,
-        this.path
-      );
+      this.loadData();
     } else if (args.dataItem.fileExtension !== 'folder' && this.flashok === 0) {
       this.fileNameWhileDownload = args.dataItem.fileName;
       const path = this.path + '/' + args.dataItem.fileName;
@@ -653,7 +463,6 @@ export class HomeComponent implements OnInit {
       .downloadFileForEdit(this.path + '/' + dataItem.fileName)
       .subscribe(
         (response) => {
-          console.log(response);
           this.handleBlobResponse(response);
           this.opened = true;
           this.isLoading = false;
@@ -682,7 +491,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  generateTextFile(): void {
+  private generateTextFile(): void {
     const blob = new Blob([this.editedFileContent], {
       type: 'text/plain;charset=utf-8',
     });
@@ -707,10 +516,6 @@ export class HomeComponent implements OnInit {
       );
   }
 
-  public open(): void {
-    this.opened = true;
-  }
-
   public delete(dataItem: FileExFo): void {
     this.flashok++;
     console.log('Delete ga kirdi');
@@ -721,24 +526,12 @@ export class HomeComponent implements OnInit {
       this.fileService.deleteFile(this.path, dataItem.fileName).subscribe(
         (response) => {
           console.log('Response of deleteFile ' + response);
-          this.getWithFilter(
-            this.skip,
-            this.pageSize,
-            this.extensionResponse,
-            this.fileNameResponse,
-            this.path
-          );
+          this.loadData();
           this.toastr.success('File deleted successfully ');
         },
         (error) => {
           console.log('Error of deleteFile ' + error);
-          this.getWithFilter(
-            this.skip,
-            this.pageSize,
-            this.extensionResponse,
-            this.fileNameResponse,
-            this.path
-          );
+          this.loadData();
         }
       );
     }

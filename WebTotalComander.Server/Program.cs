@@ -1,4 +1,5 @@
 
+using Microsoft.AspNetCore.Http.Features;
 using NTierApplication.Web.ActionHelpers;
 using WebTotalComander.Repository.Services;
 using WebTotalComander.Service.Services;
@@ -23,6 +24,11 @@ public class Program
         builder.Services.AddScoped<IFileRepository, FileRepository>();
         builder.Services.AddScoped<IFolderRepository, FolderRepository>();
         builder.Services.AddScoped<IFolderService, FolderService>();
+
+        builder.Services.Configure<FormOptions>(options =>
+        {
+            options.MultipartBodyLengthLimit = 1024 * 1024 * 1024;
+        });
 
         /*
         builder.Services.AddCors(options =>

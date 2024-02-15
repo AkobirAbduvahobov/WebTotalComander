@@ -7,12 +7,9 @@ public class FileRepository : IFileRepository
 {
 
     private static string uploadFolderPath = Directory.GetCurrentDirectory() + "\\DataBase\\";
-
-
-
-    public async Task<bool> SaveFileAsync(IFormFile file, string path = "")
+    public async Task<bool> SaveFileAsync(Stream stream, string fileName, string path = "")
     {
-        var filePath = Path.Combine(uploadFolderPath + path, file.FileName);
+        var filePath = Path.Combine(uploadFolderPath + path, fileName);
 
         string path1 = "";
         if (path != string.Empty)
@@ -26,11 +23,9 @@ public class FileRepository : IFileRepository
         if (File.Exists(filePath))
             throw new FileAlreadyExistException("File already exist");
 
-
-
-        using (var stream = new FileStream(filePath, FileMode.Create))
+        using (var newStream = new FileStream(filePath, FileMode.Create))
         {
-            await file.CopyToAsync(stream);
+            await stream.CopyToAsync(newStream);
         }
 
         return true;
@@ -75,7 +70,7 @@ public class FileRepository : IFileRepository
         }
         else
         {
-            throw new FileNotFoundException();
+            throw new FileNotFoundException( "No file to change" );
         }
 
         using (var stream = new FileStream(path, FileMode.Create))
